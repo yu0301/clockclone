@@ -6,22 +6,29 @@
 //  Copyright © 2020 KuanYu. All rights reserved.
 //
 
+
+//拿到暫存資料，確認後再回傳到前一頁的VC protocol這邊要拿到全部的東西再往回傳
 protocol EditAlarmVCDelegate {
-    func passAlarmData(controller: UIViewController)
+    func editAlarmData(controller: UIViewController)
+    func addAlarmData(controller: UIViewController)
 }
+
 
 import UIKit
 
 class EditAlarmVC: UIViewController {
     
-    var data = ["Repeat","Label","Sound","Snooze"]
+    var data = ["重複","標籤","提示聲","稍後提醒"]
     var editAlarmNavigationBar = UINavigationBar()
     var editAlarmNavigationItem = UINavigationItem(title: "Edit Alarm")
     var editAlarmTableView = UITableView()
     var alarmDatePicker = UIDatePicker()
     var delegate:EditAlarmVCDelegate?
+    var editStyle:EditStyle?
+    //MARK: -暫存區，接收改變後的參數，等確定要之後再丟給前面
+    var alarmData:AlarmData?
     //MARK: -等於前面傳來的資料
-    var savedClock: Date?
+//    var savedClock: Date?
     
     //MARK:- set UI
     func setEditAlarmNavigationBar(){
@@ -52,10 +59,16 @@ class EditAlarmVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    //MARK:-設定返回路徑並丟回需要的資料
     @objc func saveSetClock(){
-        let newClock = alarmDatePicker.date
-        savedClock = newClock
-        delegate?.passAlarmData(controller: self)
+        //透過delegate方式傳到前頁
+        alarmData = AlarmData(times: alarmDatePicker.date, label: "鬧鐘")
+//            indexpath enum
+        if editStyle == .edit{
+            delegate?.editAlarmData(controller: self)
+        }else{
+            delegate?.addAlarmData(controller: self)
+        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -112,17 +125,13 @@ class EditAlarmVC: UIViewController {
     
     override func viewDidLoad() {
         setUI()
-        alarmDatePicker.date = savedClock!
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         super.viewDidLoad()
-        
-        // Do any additional setup after loading the view.
     }
 }
 
 //MARK: -set tableviewcell
 extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9701F646251B762A002D5257 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701F645251B762A002D5257 /* AlarmModel.swift */; };
 		97B23B48250E306300B0AED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B23B47250E306300B0AED8 /* AppDelegate.swift */; };
 		97B23B4A250E306300B0AED8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B23B49250E306300B0AED8 /* SceneDelegate.swift */; };
 		97B23B4C250E306300B0AED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B23B4B250E306300B0AED8 /* ViewController.swift */; };
@@ -19,7 +20,7 @@
 		97CB07312519A215008B00E4 /* SoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB07302519A215008B00E4 /* SoundVC.swift */; };
 		97ED5A5325146967008BB7F6 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5225146967008BB7F6 /* Cell.swift */; };
 		97ED5A5525149F46008BB7F6 /* WorldClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5425149F46008BB7F6 /* WorldClock.swift */; };
-		97ED5A572514A5BA008BB7F6 /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A562514A5BA008BB7F6 /* Alarm.swift */; };
+		97ED5A572514A5BA008BB7F6 /* AlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A562514A5BA008BB7F6 /* AlarmVC.swift */; };
 		97ED5A592514A5D4008BB7F6 /* BedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A582514A5D4008BB7F6 /* BedTime.swift */; };
 		97ED5A5B2514A5E9008BB7F6 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5A2514A5E9008BB7F6 /* Timer.swift */; };
 		97ED5A5D2514A8A5008BB7F6 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5C2514A8A5008BB7F6 /* StopWatch.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9701F645251B762A002D5257 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
 		97B23B44250E306300B0AED8 /* clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = clock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97B23B47250E306300B0AED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97B23B49250E306300B0AED8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,7 +43,7 @@
 		97CB07302519A215008B00E4 /* SoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundVC.swift; sourceTree = "<group>"; };
 		97ED5A5225146967008BB7F6 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		97ED5A5425149F46008BB7F6 /* WorldClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClock.swift; sourceTree = "<group>"; };
-		97ED5A562514A5BA008BB7F6 /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
+		97ED5A562514A5BA008BB7F6 /* AlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmVC.swift; sourceTree = "<group>"; };
 		97ED5A582514A5D4008BB7F6 /* BedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedTime.swift; sourceTree = "<group>"; };
 		97ED5A5A2514A5E9008BB7F6 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		97ED5A5C2514A8A5008BB7F6 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
@@ -59,6 +61,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9701F63D251B7502002D5257 /* EditAlarm */ = {
+			isa = PBXGroup;
+			children = (
+				97CB0727251997E8008B00E4 /* EditAlarmVC.swift */,
+				97CB0729251999B5008B00E4 /* EditAlarmCell.swift */,
+			);
+			path = EditAlarm;
+			sourceTree = "<group>";
+		};
+		9701F63F251B755A002D5257 /* AlarmMainPage */ = {
+			isa = PBXGroup;
+			children = (
+				97ED5A562514A5BA008BB7F6 /* AlarmVC.swift */,
+				97ED5A622514B2A9008BB7F6 /* AlarmCell.swift */,
+				9701F645251B762A002D5257 /* AlarmModel.swift */,
+			);
+			path = AlarmMainPage;
+			sourceTree = "<group>";
+		};
 		97B23B3B250E306300B0AED8 = {
 			isa = PBXGroup;
 			children = (
@@ -78,7 +99,7 @@
 		97B23B46250E306300B0AED8 /* clock */ = {
 			isa = PBXGroup;
 			children = (
-				97ED5A5E2514B1E3008BB7F6 /* Alarm */,
+				97ED5A5E2514B1E3008BB7F6 /* AlarmPage */,
 				97ED5A612514B25E008BB7F6 /* Timer */,
 				97ED5A602514B237008BB7F6 /* StopWatch */,
 				97ED5A5F2514B209008BB7F6 /* BedTime */,
@@ -104,16 +125,14 @@
 			path = "Three Options";
 			sourceTree = "<group>";
 		};
-		97ED5A5E2514B1E3008BB7F6 /* Alarm */ = {
+		97ED5A5E2514B1E3008BB7F6 /* AlarmPage */ = {
 			isa = PBXGroup;
 			children = (
-				97ED5A562514A5BA008BB7F6 /* Alarm.swift */,
-				97ED5A622514B2A9008BB7F6 /* AlarmCell.swift */,
-				97CB0727251997E8008B00E4 /* EditAlarmVC.swift */,
-				97CB0729251999B5008B00E4 /* EditAlarmCell.swift */,
+				9701F63F251B755A002D5257 /* AlarmMainPage */,
+				9701F63D251B7502002D5257 /* EditAlarm */,
 				97CB072B2519A1AA008B00E4 /* Three Options */,
 			);
-			path = Alarm;
+			path = AlarmPage;
 			sourceTree = "<group>";
 		};
 		97ED5A5F2514B209008BB7F6 /* BedTime */ = {
@@ -219,10 +238,11 @@
 				97B23B48250E306300B0AED8 /* AppDelegate.swift in Sources */,
 				97ED5A5525149F46008BB7F6 /* WorldClock.swift in Sources */,
 				97ED5A632514B2A9008BB7F6 /* AlarmCell.swift in Sources */,
+				9701F646251B762A002D5257 /* AlarmModel.swift in Sources */,
 				97B23B4A250E306300B0AED8 /* SceneDelegate.swift in Sources */,
 				97ED5A5D2514A8A5008BB7F6 /* StopWatch.swift in Sources */,
 				97CB072A251999B5008B00E4 /* EditAlarmCell.swift in Sources */,
-				97ED5A572514A5BA008BB7F6 /* Alarm.swift in Sources */,
+				97ED5A572514A5BA008BB7F6 /* AlarmVC.swift in Sources */,
 				97CB07312519A215008B00E4 /* SoundVC.swift in Sources */,
 				97ED5A5B2514A5E9008BB7F6 /* Timer.swift in Sources */,
 			);
