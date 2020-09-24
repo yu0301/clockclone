@@ -18,17 +18,16 @@ import UIKit
 
 class EditAlarmVC: UIViewController {
     
-    var data = ["重複","標籤","提示聲","稍後提醒"]
+    var editAlarmCellTitle = ["重複","標籤","提示聲","稍後提醒"]
+    var editAlarmCellContent = ["每天","鬧鐘","雷達",""]
     var editAlarmNavigationBar = UINavigationBar()
-    var editAlarmNavigationItem = UINavigationItem(title: "Edit Alarm")
+    var editAlarmNavigationItem = UINavigationItem(title: "編輯鬧鐘")
     var editAlarmTableView = UITableView()
     var alarmDatePicker = UIDatePicker()
     var delegate:EditAlarmVCDelegate?
     var editStyle:EditStyle?
     //MARK: -暫存區，接收改變後的參數，等確定要之後再丟給前面
     var alarmData:AlarmData?
-    //MARK: -等於前面傳來的資料
-//    var savedClock: Date?
     
     //MARK:- set UI
     func setEditAlarmNavigationBar(){
@@ -38,11 +37,13 @@ class EditAlarmVC: UIViewController {
     }
     
     func setEditAlarmTableView(){
+        //        editAlarmTableView.separatorColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         editAlarmTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         editAlarmTableView.register(EditAlarmCell.self, forCellReuseIdentifier: "Cell")
         editAlarmTableView.rowHeight = 50
         editAlarmTableView.delegate = self
         editAlarmTableView.dataSource = self
+        editAlarmTableView.separatorColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         view.addSubview(editAlarmTableView)
     }
     
@@ -61,9 +62,8 @@ class EditAlarmVC: UIViewController {
     
     //MARK:-設定返回路徑並丟回需要的資料
     @objc func saveSetClock(){
-        //透過delegate方式傳到前頁
         alarmData = AlarmData(times: alarmDatePicker.date, label: "鬧鐘")
-//            indexpath enum
+        //            indexpath enum
         if editStyle == .edit{
             delegate?.editAlarmData(controller: self)
         }else{
@@ -72,22 +72,13 @@ class EditAlarmVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    //MARK: -set clock
+    //MARK: -Set clock
     func setAlarmDatePicker(){
+        print(alarmDatePicker.date)
         alarmDatePicker.datePickerMode = .time
         alarmDatePicker.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         view.addSubview(alarmDatePicker)
     }
-    //當前時間，轉成string
-    func dateToDateString(_ date:Date) -> String {
-        let timeZone = NSTimeZone.local
-        let formatter = DateFormatter()
-        formatter.timeZone = timeZone
-        formatter.dateFormat = "HH:mm"
-        let date = formatter.string(from: date)
-        return date
-    }
-    
     //MARK:- Constriants
     func setAlarmNavigationBarConstraints(){
         editAlarmNavigationBar.translatesAutoresizingMaskIntoConstraints = false
@@ -100,14 +91,14 @@ class EditAlarmVC: UIViewController {
     func setAlarmDatePickerConstraints(){
         alarmDatePicker.translatesAutoresizingMaskIntoConstraints = false
         alarmDatePicker.topAnchor.constraint(equalTo: editAlarmNavigationBar.bottomAnchor,constant:0).isActive = true
-        alarmDatePicker.bottomAnchor.constraint(equalTo: editAlarmTableView.topAnchor).isActive = true
+        alarmDatePicker.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.05).isActive = true
         alarmDatePicker.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        
     }
     
     func setAlarmTableViewConstraints(){
         editAlarmTableView.translatesAutoresizingMaskIntoConstraints = false
-        editAlarmTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        editAlarmTableView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 30).isActive = true
+        editAlarmTableView.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.33).isActive = true
         editAlarmTableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
     
@@ -137,12 +128,14 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return editAlarmCellTitle.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
-        cell.setCell(indexpath: indexPath, data: data)
+        cell.setCell(indexpath: indexPath, data: editAlarmCellTitle)
+        cell.setEditAlarmCellLabel(indexpath: indexPath, data: editAlarmCellContent)
+        cell.setEditAlarmCellLabelConstraints()
         return cell
     }
     
@@ -150,13 +143,16 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         if editingStyle == .delete {
             editAlarmTableView.beginUpdates()
             editAlarmTableView.deleteRows(at: [indexPath], with: .fade)
-            data.remove(at: indexPath.row)
+            editAlarmCellTitle.remove(at: indexPath.row)
             editAlarmTableView.endUpdates()
         }
     }
     
     //MARK: -跳轉頁面
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let labelVC = LabelVC()
+        labelVC.textField.text = editAlarmCellContent[indexPath.row]
+        labelVC.delegate = self
         let currentCell = editAlarmTableView.cellForRow(at: indexPath)!
         presentToOtherVC(cellTitle:(currentCell.textLabel?.text)!)
     }
@@ -165,13 +161,24 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         let vc1 = RepeatVC()
         let vc2 = LabelVC()
         let vc3 = SoundVC()
-        if cellTitle == "Repeat"{
+        if cellTitle == "重複"{
             present(vc1, animated: true, completion: nil)
-        }else if cellTitle == "Label"{
+        }else if cellTitle == "標籤"{
             present(vc2, animated: true, completion: nil)
-        }else if cellTitle == "Sound"{
+        }else if cellTitle == "提示音"{
             present(vc3, animated: true, completion: nil)
         }
     }
 }
+//MARK: -需要四個extension
 
+//MARK: -接收labeltex資料
+extension EditAlarmVC:LabelTextDelegate{
+    func LabelText(controller: UIViewController) {
+        if let pushController = controller as? LabelVC {
+            let returnedText = pushController.textField.text
+            editAlarmCellContent[1] = returnedText!
+            editAlarmTableView.reloadData()
+        }
+    }
+}

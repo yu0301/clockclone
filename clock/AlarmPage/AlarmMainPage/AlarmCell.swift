@@ -36,7 +36,7 @@ class AlarmCell: UITableViewCell {
     
     func setClockLabel(indexpath: IndexPath,data:[String]){
         clockLabel.adjustsFontSizeToFitWidth = true
-        clockLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        clockLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         clockLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         clockLabel.font = UIFont(name: "HelveticaNeue", size: 25)
         clockLabel.text = data[indexpath.row]
@@ -57,11 +57,21 @@ class AlarmCell: UITableViewCell {
         alarmSwitch.frame = CGRect(x: 10, y: 10, width: 5, height: 5)
 //        accessoryView?.frame = CGRect(x: 10, y: 10, width: 10, height: 10)
 //        accessoryView?.backgroundColor = #colorLiteral(red: 0.9809144139, green: 0.9119312763, blue: 0, alpha: 1)
+        alarmSwitch.addTarget(self, action: #selector(changeAlarmTextColor), for: .touchUpInside)
         addSubview(alarmSwitch)
+//        accessoryView?.addSubview(alarmSwitch)
     }
-   
+    @objc func changeAlarmTextColor(){
+        if alarmSwitch.isOn == true{
+            clockLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            alarmLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }else{
+            clockLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+            alarmLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        }
+    }
     
-    //constraints area
+    //MARK: -constraints area
     
     func setAlarmLabelConstraints(){
         alarmLabel.translatesAutoresizingMaskIntoConstraints = false

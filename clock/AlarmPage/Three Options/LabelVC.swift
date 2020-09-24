@@ -8,32 +8,48 @@
 
 import UIKit
 
+protocol LabelTextDelegate {
+    func LabelText(controller: UIViewController)
+}
+
 class LabelVC: UIViewController {
 
-    var textView = UITextView()
+    var textField = UITextField()
+    var delegate:LabelTextDelegate?
+    //need back navigation
     
-    func setTextView(){
-        textView.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        textView.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        view.addSubview(textView)
+    //MARK: -UI Set
+    func setTextField(){
+        print(textField.text)
+        textField.returnKeyType = .done
+        textField.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        textField.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        textField.delegate = self
+        view.addSubview(textField)
     }
     
-    func setTextViewConstraints(){
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        textView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        textView.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.08).isActive = true
+    func setTextFieldConstraints(){
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        textField.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        textField.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.08).isActive = true
     }
+    
+    //MARK:- Action
     override func viewDidLoad() {
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        setTextView()
-        setTextViewConstraints()
+        setTextField()
+        setTextFieldConstraints()
         super.viewDidLoad()
-
-       
     }
-    
-
-   
-
 }
+
+extension LabelVC:UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        delegate?.LabelText(controller: self)
+        dismiss(animated: true, completion: nil)
+        return true
+    }
+}
+
+

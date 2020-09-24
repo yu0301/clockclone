@@ -10,16 +10,11 @@ import UIKit
 
 class Timer: UIViewController {
     
-    
-    func setTimerController(){
-        self.tabBarItem.image = UIImage(systemName: "timer")
-        self.tabBarItem.title = "Timer"
-    }
+  
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTimerController()
     }
     
     

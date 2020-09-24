@@ -22,7 +22,9 @@ class ViewController: UIViewController {
     
     //Navigationbar
     func setMyNavigationBar(){
-        myNavigationBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+//        myNavigationBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        myNavigationBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        myNavigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         myNavigationBar.setItems([myNavigationbarItem], animated: false)
         view.addSubview(myNavigationBar)
     }
@@ -41,7 +43,7 @@ class ViewController: UIViewController {
         myNavigationbarItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
     }
     
-    //leftbtn action
+//    //leftbtn action
     @objc func doneTapped(){
         if myTableView.isEditing == true {
             myTableView.setEditing(false, animated: true)
@@ -75,24 +77,23 @@ class ViewController: UIViewController {
     
     //tabbar
     func setMyTabBarController(){
-        myTabbarController.tabBar.backgroundColor = .white
+//        myTabbarController.tabBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        myTabbarController.tabBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        myTabbarController.tabBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         let vc1 = WorldClock()
         let vc2 = Alarm()
-        let vc3 = BedTime()
-        let vc4 = StopWatch()
-        let vc5 = Timer()
+        let vc3 = StopWatch()
+        let vc4 = Timer()
         vc1.tabBarItem.image = UIImage(systemName: "circle")
-        vc1.tabBarItem.title = "World Clock"
+        vc1.tabBarItem.title = "世界時鐘"
         vc2.tabBarItem.image = UIImage(systemName: "alarm.fill")
-        vc2.tabBarItem.title = "Alarm"
-        vc3.tabBarItem.image = UIImage(systemName: "bed.double.fill")
-        vc3.tabBarItem.title = "Bedtime"
-        vc4.tabBarItem.image = UIImage(systemName: "stopwatch.fill")
-        vc4.tabBarItem.title = "Stopwatch"
-        vc5.tabBarItem.image = UIImage(systemName: "timer")
-        vc5.tabBarItem.title = "Timer"
+        vc2.tabBarItem.title = "鬧鐘"
+        vc3.tabBarItem.image = UIImage(systemName: "stopwatch.fill")
+        vc3.tabBarItem.title = "碼表"
+        vc4.tabBarItem.image = UIImage(systemName: "timer")
+        vc4.tabBarItem.title = "計時器"
         
-        myTabbarController.setViewControllers([vc1,vc2,vc3,vc4,vc5], animated: false)
+        myTabbarController.setViewControllers([vc1,vc2,vc3,vc4], animated: false)
         self.view.addSubview(myTabbarController.view)
         
     }

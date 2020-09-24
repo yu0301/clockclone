@@ -39,14 +39,15 @@ class Alarm: UIViewController{
     var editStyle:EditStyle?
     
     func setAlarmNavigationBar(){
-        alarmNavigationBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        alarmNavigationBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        alarmNavigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         alarmNavigationBar.setItems([alarmNavigationItem], animated: false)
         view.addSubview(alarmNavigationBar)
     }
     
     //set alarmTableView
     func setAlarmTableView(){
-        alarmTableView.frame = CGRect(x: 0, y: 0 , width: view.frame.size.width, height: view.frame.size.height)
+        alarmTableView.separatorColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         alarmTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         alarmTableView.register(AlarmCell.self, forCellReuseIdentifier: "Cell")
         alarmTableView.rowHeight = 80
@@ -54,14 +55,11 @@ class Alarm: UIViewController{
         alarmTableView.dataSource = self
         alarmTableView.allowsSelection = false
         alarmTableView.allowsSelectionDuringEditing = true
+        alarmTableView.tableFooterView = UIView()
+        alarmTableView.separatorColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         view.addSubview(alarmTableView)
     }
     
-    //set alarm
-    func setAlarmController(){
-        self.tabBarItem.image = UIImage(systemName: "alarm.fill")
-        self.tabBarItem.title = "Alarm"
-    }
     
     //set left btn
     func setAlarmLeftBTN(){
@@ -91,7 +89,7 @@ class Alarm: UIViewController{
         let vc = EditAlarmVC()
         editStyle = .add
         vc.editStyle = editStyle
-        vc.delegate = self
+        vc.delegate = self  //判斷路徑用
         present(vc, animated: true, completion: nil)
     }
     
@@ -117,7 +115,6 @@ class Alarm: UIViewController{
         setAlarmNavigationBar()
         setAlarmLeftBTN()
         setAlarmRightBTN()
-        setAlarmController()
         setAlarmNavigationBarConstraints()
         setAlarmTableViewConstraints()
     }
@@ -141,16 +138,15 @@ extension Alarm: UITableViewDelegate,UITableViewDataSource {
         return savedClock.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! AlarmCell
         cell.setCell()
         cell.setClockLabel(indexpath: indexPath, data: savedClock)
         cell.setAlarmLabel(indexpath: indexPath, data: alarmLabel)
-        //        cell.setAlarmSwitch()
+        cell.setAlarmSwitch()
         cell.setClockLabelConstraints()
         cell.setAlarmLabelConstraints()
-        //        cell.setAlarmSwithConstraints()
+        cell.setAlarmSwithConstraints()
         return cell
     }
     
@@ -169,6 +165,7 @@ extension Alarm: UITableViewDelegate,UITableViewDataSource {
         let vc = EditAlarmVC()
         editStyle = .edit
         vc.editStyle = editStyle
+        
         vc.alarmDatePicker.date = stringConvertDate(string: savedClock[indexPath.row])
         vc.delegate = self
         present(vc, animated: true, completion: nil)
@@ -185,17 +182,18 @@ extension Alarm:EditAlarmVCDelegate{
             savedClock[0] = backClockInString
             alarmLabel[0] = backAlarmLabel!
             alarmTableView.reloadData()
+            print(123)
         }
     }
     //MARK: -路徑2 新增
     func addAlarmData(controller: UIViewController) {
         let lastInt = savedClock.count
         if let pushController = controller as? EditAlarmVC{
-            //access一包中的其中一個 alarmDatePicker.date
             let backClockInDate = pushController.alarmData?.times
             let backClockInString = dateToDateString(backClockInDate!)
             savedClock.insert(backClockInString, at: lastInt)
             alarmTableView.reloadData()
+            print(456)
         }
     }
 }

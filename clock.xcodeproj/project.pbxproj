@@ -21,7 +21,6 @@
 		97ED5A5325146967008BB7F6 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5225146967008BB7F6 /* Cell.swift */; };
 		97ED5A5525149F46008BB7F6 /* WorldClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5425149F46008BB7F6 /* WorldClock.swift */; };
 		97ED5A572514A5BA008BB7F6 /* AlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A562514A5BA008BB7F6 /* AlarmVC.swift */; };
-		97ED5A592514A5D4008BB7F6 /* BedTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A582514A5D4008BB7F6 /* BedTime.swift */; };
 		97ED5A5B2514A5E9008BB7F6 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5A2514A5E9008BB7F6 /* Timer.swift */; };
 		97ED5A5D2514A8A5008BB7F6 /* StopWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5C2514A8A5008BB7F6 /* StopWatch.swift */; };
 		97ED5A632514B2A9008BB7F6 /* AlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A622514B2A9008BB7F6 /* AlarmCell.swift */; };
@@ -44,7 +43,6 @@
 		97ED5A5225146967008BB7F6 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		97ED5A5425149F46008BB7F6 /* WorldClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClock.swift; sourceTree = "<group>"; };
 		97ED5A562514A5BA008BB7F6 /* AlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmVC.swift; sourceTree = "<group>"; };
-		97ED5A582514A5D4008BB7F6 /* BedTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BedTime.swift; sourceTree = "<group>"; };
 		97ED5A5A2514A5E9008BB7F6 /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		97ED5A5C2514A8A5008BB7F6 /* StopWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopWatch.swift; sourceTree = "<group>"; };
 		97ED5A622514B2A9008BB7F6 /* AlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmCell.swift; sourceTree = "<group>"; };
@@ -102,7 +100,6 @@
 				97ED5A5E2514B1E3008BB7F6 /* AlarmPage */,
 				97ED5A612514B25E008BB7F6 /* Timer */,
 				97ED5A602514B237008BB7F6 /* StopWatch */,
-				97ED5A5F2514B209008BB7F6 /* BedTime */,
 				97B23B47250E306300B0AED8 /* AppDelegate.swift */,
 				97B23B49250E306300B0AED8 /* SceneDelegate.swift */,
 				97B23B4B250E306300B0AED8 /* ViewController.swift */,
@@ -133,14 +130,6 @@
 				97CB072B2519A1AA008B00E4 /* Three Options */,
 			);
 			path = AlarmPage;
-			sourceTree = "<group>";
-		};
-		97ED5A5F2514B209008BB7F6 /* BedTime */ = {
-			isa = PBXGroup;
-			children = (
-				97ED5A582514A5D4008BB7F6 /* BedTime.swift */,
-			);
-			path = BedTime;
 			sourceTree = "<group>";
 		};
 		97ED5A602514B237008BB7F6 /* StopWatch */ = {
@@ -229,7 +218,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97ED5A592514A5D4008BB7F6 /* BedTime.swift in Sources */,
 				97CB072D2519A1E7008B00E4 /* RepeatVC.swift in Sources */,
 				97B23B4C250E306300B0AED8 /* ViewController.swift in Sources */,
 				97ED5A5325146967008BB7F6 /* Cell.swift in Sources */,

@@ -10,14 +10,14 @@ import UIKit
 
 class StopWatch: UIViewController {
 
-    func setStopWatchViewController(){
-        self.tabBarItem.image = UIImage(systemName: "stopwatch.fill")
-        self.tabBarItem.title = "Stopwatch"
-    }
+//    func setStopWatchViewController(){
+//        self.tabBarItem.image = UIImage(systemName: "stopwatch.fill")
+//        self.tabBarItem.title = "Stopwatch"
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setStopWatchViewController()
+//        setStopWatchViewController()
     }
     
 
