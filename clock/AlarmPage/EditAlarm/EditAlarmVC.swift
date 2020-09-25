@@ -25,19 +25,20 @@ class EditAlarmVC: UIViewController {
     var alarmDatePicker = UIDatePicker()
     var delegate:EditAlarmVCDelegate?
     var editStyle:EditStyle?
-    var indexPath: IndexPath = [0,0]
+    var indexPath: IndexPath = [0,1]
     //MARK: -暫存區，接收改變後的參數，等確定要之後再丟給前面
     var alarmData:AlarmData?
     
     //MARK:- set UI
     func setEditAlarmNavigationBar(){
+        editAlarmNavigationBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        editAlarmNavigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         editAlarmNavigationBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         editAlarmNavigationBar.setItems([editAlarmNavigationItem], animated: false)
         view.addSubview(editAlarmNavigationBar)
     }
     
     func setEditAlarmTableView(){
-        //        editAlarmTableView.separatorColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         editAlarmTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         editAlarmTableView.register(EditAlarmCell.self, forCellReuseIdentifier: "Cell")
         editAlarmTableView.rowHeight = 50
@@ -65,7 +66,7 @@ class EditAlarmVC: UIViewController {
         //            indexpath enum
         let vc = Alarm()
         vc.indexPath = indexPath
-        alarmData = AlarmData(times: alarmDatePicker.date, label: "鬧鐘")
+        alarmData = AlarmData(time: dateToDateString(alarmDatePicker.date), status: "鬧鐘")
         if editStyle == .edit{
             delegate?.editAlarmData(controller: self,indexPath: indexPath)
         }else{
@@ -73,6 +74,16 @@ class EditAlarmVC: UIViewController {
             delegate?.addAlarmData(controller: self,indexPath: indexPath)
         }
         dismiss(animated: true, completion: nil)
+    }
+    
+    //MARK: - Date to stiring
+    func dateToDateString(_ date:Date) -> String {
+        let timeZone = NSTimeZone.local
+        let formatter = DateFormatter()
+        formatter.timeZone = timeZone
+        formatter.dateFormat = "HH:mm"
+        let date = formatter.string(from: date)
+        return date
     }
     
     //MARK: -Set clock
@@ -126,9 +137,6 @@ class EditAlarmVC: UIViewController {
 
 //MARK: -set tableviewcell
 extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return editAlarmCellTitle.count
@@ -138,6 +146,8 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
         cell.setCell(indexpath: indexPath, data: editAlarmCellTitle)
         cell.setEditAlarmCellLabel(indexpath: indexPath, data: editAlarmCellContent)
+        cell.setSnoozeSwitchSwitch()
+        cell.setAlarmSwithConstraints()
         cell.setEditAlarmCellLabelConstraints()
         return cell
     }

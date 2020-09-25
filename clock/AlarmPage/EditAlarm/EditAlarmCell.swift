@@ -11,7 +11,7 @@ import UIKit
 class EditAlarmCell: UITableViewCell {
 
     var editAlarmCellLabel = UILabel()
-    
+    var snoozeSwitch = UISwitch()
     //MARK: -Set UI
     func setEditAlarmCellLabel(indexpath:IndexPath, data:[String]){
         editAlarmCellLabel.backgroundColor = .clear
@@ -20,7 +20,6 @@ class EditAlarmCell: UITableViewCell {
         editAlarmCellLabel.text = data[indexpath.row]
         addSubview(editAlarmCellLabel)
     }
-    
 
     
     func setCell(indexpath:IndexPath, data:[String]){
@@ -33,7 +32,9 @@ class EditAlarmCell: UITableViewCell {
         
     }
     
-
+    func setSnoozeSwitchSwitch(){
+        addSubview(snoozeSwitch)
+    }
      
     //MARK:- Constraints
     func setEditAlarmCellLabelConstraints(){
@@ -44,8 +45,16 @@ class EditAlarmCell: UITableViewCell {
         editAlarmCellLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
     }
     
+    func setAlarmSwithConstraints(){
+        snoozeSwitch.translatesAutoresizingMaskIntoConstraints = false
+        snoozeSwitch.centerYAnchor.constraint(equalTo:centerYAnchor).isActive = true
+        snoozeSwitch.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.3).isActive = true
+        snoozeSwitch.trailingAnchor.constraint(equalTo:trailingAnchor,constant: 40).isActive = true
+    }
+    
      override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
          super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
      }
      
      required init?(coder: NSCoder) {

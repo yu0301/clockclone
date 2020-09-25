@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct AlarmData{
-    var times:Date
+struct AlarmData:Codable{
+    var time:String
 //    var reapeat:Any
-    var label:String
+    var status:String
 //    var sound:Any
-//    var indexPath:IndexPath
     //snooze?
 }
+
 
 enum EditStyle {
     case edit

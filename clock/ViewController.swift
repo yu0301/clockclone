@@ -9,8 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var data = ["Taipei","Washington","Tokyo","Seoul","London"]
-    var jetLag = ["Today, +0HRS","Today, +0HRS","Today, +0HRS","Today, +0HRS","Today, +0HRS"]
+    var data = [""]
+    var jetLag = [""]
     var myNavigationBar = UINavigationBar()
     var myNavigationbarItem = UINavigationItem(title: "世界鬧鐘")
     var myTableView = UITableView()
@@ -86,7 +86,7 @@ class ViewController: UIViewController {
         let vc2 = Alarm()
         let vc3 = StopWatch()
         let vc4 = Timer()
-        vc1.tabBarItem.image = UIImage(systemName: "circle")
+        vc1.tabBarItem.image = UIImage(systemName: "globe")
         vc1.tabBarItem.title = "世界時鐘"
         vc2.tabBarItem.image = UIImage(systemName: "alarm.fill")
         vc2.tabBarItem.title = "鬧鐘"

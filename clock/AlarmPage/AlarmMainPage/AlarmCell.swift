@@ -21,7 +21,7 @@ class AlarmCell: UITableViewCell {
     
     //MARK: -Set Cell and Label
     var clockLabel = UILabel()
-    var alarmLabel = UILabel()
+    var statusLabel = UILabel()
     var alarmSwitch = UISwitch()
     
     func setCell(){
@@ -45,12 +45,12 @@ class AlarmCell: UITableViewCell {
     }
     
     func setAlarmLabel(indexpath:IndexPath, data:[String]){
-        alarmLabel.adjustsFontSizeToFitWidth = true
-        alarmLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        alarmLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        alarmLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        alarmLabel.text = data[indexpath.row]
-        addSubview(alarmLabel)
+        statusLabel.adjustsFontSizeToFitWidth = true
+        statusLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        statusLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        statusLabel.font = UIFont(name: "HelveticaNeue", size: 18)
+        statusLabel.text = data[indexpath.row]
+        addSubview(statusLabel)
     }
     
     //MARK:- Switch
@@ -62,19 +62,19 @@ class AlarmCell: UITableViewCell {
     @objc func changeAlarmTextColor(){
         if alarmSwitch.isOn == true{
             clockLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-            alarmLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         }else{
             clockLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-            alarmLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+            statusLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         }
     }
     
     //MARK: -Constraints
     func setAlarmLabelConstraints(){
-        alarmLabel.translatesAutoresizingMaskIntoConstraints = false
-        alarmLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: 10).isActive = true
-        alarmLabel.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.3).isActive = true
-        alarmLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15).isActive = true
+        statusLabel.translatesAutoresizingMaskIntoConstraints = false
+        statusLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: 10).isActive = true
+        statusLabel.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.3).isActive = true
+        statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15).isActive = true
     }
 
     func setClockLabelConstraints(){

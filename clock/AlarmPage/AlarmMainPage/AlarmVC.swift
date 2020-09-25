@@ -8,7 +8,8 @@
 
 import UIKit
 class Alarm: UIViewController{
-    //  3.switch在編輯時無法消失 4.箭頭顏色
+    //拿到標籤和時間，分派給個別的元件 model.label model.alarm
+    // 1.鬧鐘label無法傳值 2.delegate也無法執行 3.switch在編輯時無法消失 4.箭頭顏色
     //MARK: -string to date
     func stringConvertDate(string:String, dateFormat:String="HH:mm") -> Date {
         let dateFormatter = DateFormatter.init()
@@ -16,6 +17,7 @@ class Alarm: UIViewController{
         let date = dateFormatter.date(from: string)
         return date!
     }
+    
     //MARK: -date to string
     func dateToDateString(_ date:Date) -> String {
         let timeZone = NSTimeZone.local
@@ -25,6 +27,7 @@ class Alarm: UIViewController{
         let date = formatter.string(from: date)
         return date
     }
+    
     //MARK: -設定區
     //    var savedClock:Array<String>?
     //    var alarm:Array<String>?
@@ -43,6 +46,7 @@ class Alarm: UIViewController{
         view.addSubview(alarmNavigationBar)
     }
     
+    //set alarmTableView
     func setAlarmTableView(){
         alarmTableView.separatorColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         alarmTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -54,24 +58,28 @@ class Alarm: UIViewController{
         alarmTableView.allowsSelectionDuringEditing = true
         alarmTableView.tableFooterView = UIView()
         alarmTableView.separatorColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        alarmTableView.isEditing = false
         view.addSubview(alarmTableView)
     }
     
+    
+    //set left btn
     func setAlarmLeftBTN(){
         //switch?
         if alarmTableView.isEditing == false {
-            alarmNavigationItem.leftBarButtonItem = UIBarButtonItem(title: "編輯", style: .done, target: self, action:  #selector(editTapped))
+            alarmNavigationItem.leftBarButtonItem = UIBarButtonItem(title: "編輯", style: .done, target: self, action: #selector(doneTapped))
         }else{
-            alarmNavigationItem.leftBarButtonItem = UIBarButtonItem(title: "完成", style: .done, target: self, action:  #selector(editTapped))
+            alarmNavigationItem.leftBarButtonItem = UIBarButtonItem(title: "完成", style: .done, target: self, action: #selector(doneTapped))
         }
     }
     
+    //set right btn
     func setAlarmRightBTN(){
         alarmNavigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
     }
     
-    //MARK: -根據點前狀態改變點後狀態
-    @objc func editTapped(){
+    @objc func doneTapped(){
+//        alarmNavigationItem.lef
         if alarmTableView.isEditing == true {
             alarmTableView.setEditing(false, animated: true)
             setAlarmLeftBTN()
@@ -118,12 +126,15 @@ class Alarm: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        alarmTableView.isEditing.toggle()
         setUI()
     }
+    
 }
+
 //MARK: - tableview delegate
 extension Alarm: UITableViewDelegate,UITableViewDataSource {
-
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -148,8 +159,10 @@ extension Alarm: UITableViewDelegate,UITableViewDataSource {
     //delete
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+//            alarmTableView.beginUpdates()
             savedClock.remove(at: indexPath.row)
             alarmTableView.deleteRows(at: [indexPath], with: .fade)
+//            alarmTableView.endUpdates()
         }
     }
     
@@ -170,25 +183,25 @@ extension Alarm:EditAlarmVCDelegate{
     
     //MARK: -路徑1 修改
     func editAlarmData(controller: UIViewController,indexPath:IndexPath) {
-        if let pushController = controller as? EditAlarmVC{
-            let backClockInDate = pushController.alarmData?.times
-            let backClockInString = dateToDateString(backClockInDate!)
-            let backAlarmLabel = pushController.alarmData?.label
-            savedClock[indexPath.row] = backClockInString
-            alarmLabel[indexPath.row] = backAlarmLabel!
-            alarmTableView.reloadData()
+            if let pushController = controller as? EditAlarmVC{
+                let backClockInDate = pushController.alarmData?.time
+                let backAlarmLabel = pushController.alarmData?.status
+                savedClock[0] = backClockInDate!
+                alarmLabel[0] = backAlarmLabel!
+                alarmTableView.reloadData()
         }
     }
     //MARK: -路徑2 新增
     func addAlarmData(controller: UIViewController,indexPath: IndexPath) {
         let lastInt = savedClock.count
         if let pushController = controller as? EditAlarmVC{
-            let backClockInDate = pushController.alarmData?.times
-            let backClockInString = dateToDateString(backClockInDate!)
-            let backAlarmLabel = pushController.editAlarmCellContent[indexPath.row]
+            let backClockInDate = pushController.alarmData?.time
+            let backAlarmLabel = pushController.alarmData?.status
+            let backClockInString = backClockInDate!
             savedClock.insert(backClockInString, at: lastInt)
-            alarmLabel.insert(backAlarmLabel, at: lastInt)
+            alarmLabel.insert(backAlarmLabel!, at: lastInt)
             alarmTableView.reloadData()
-        }
+       
     }
+}
 }
