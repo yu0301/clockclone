@@ -13,6 +13,7 @@ struct AlarmData{
 //    var reapeat:Any
     var label:String
 //    var sound:Any
+//    var indexPath:IndexPath
     //snooze?
 }
 

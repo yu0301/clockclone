@@ -25,12 +25,12 @@ class EditAlarmCell: UITableViewCell {
     
     func setCell(indexpath:IndexPath, data:[String]){
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+        self.tintColor = .yellow
         self.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         self.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.textLabel?.font = UIFont(name: "HelveticaNeue", size: 18)
         self.textLabel?.text = data[indexpath.row]
-        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-    
+        
     }
     
 

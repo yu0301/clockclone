@@ -9,9 +9,6 @@
 import UIKit
 
 class AlarmCell: UITableViewCell {
-    var clockLabel = UILabel()
-    var alarmLabel = UILabel()
-    var alarmSwitch = UISwitch()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -22,6 +19,11 @@ class AlarmCell: UITableViewCell {
         fatalError("init(coder:) has not been imp;emented")
     }
     
+    //MARK: -Set Cell and Label
+    var clockLabel = UILabel()
+    var alarmLabel = UILabel()
+    var alarmSwitch = UISwitch()
+    
     func setCell(){
         self.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
@@ -31,7 +33,6 @@ class AlarmCell: UITableViewCell {
         }else{
             self.accessoryType = UITableViewCell.AccessoryType.none
         }
-       
     }
     
     func setClockLabel(indexpath: IndexPath,data:[String]){
@@ -52,14 +53,11 @@ class AlarmCell: UITableViewCell {
         addSubview(alarmLabel)
     }
     
-    //set switch
+    //MARK:- Switch
     func setAlarmSwitch(){
         alarmSwitch.frame = CGRect(x: 10, y: 10, width: 5, height: 5)
-//        accessoryView?.frame = CGRect(x: 10, y: 10, width: 10, height: 10)
-//        accessoryView?.backgroundColor = #colorLiteral(red: 0.9809144139, green: 0.9119312763, blue: 0, alpha: 1)
         alarmSwitch.addTarget(self, action: #selector(changeAlarmTextColor), for: .touchUpInside)
         addSubview(alarmSwitch)
-//        accessoryView?.addSubview(alarmSwitch)
     }
     @objc func changeAlarmTextColor(){
         if alarmSwitch.isOn == true{
@@ -71,8 +69,7 @@ class AlarmCell: UITableViewCell {
         }
     }
     
-    //MARK: -constraints area
-    
+    //MARK: -Constraints
     func setAlarmLabelConstraints(){
         alarmLabel.translatesAutoresizingMaskIntoConstraints = false
         alarmLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: 10).isActive = true

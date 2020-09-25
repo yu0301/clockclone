@@ -11,20 +11,24 @@ import UIKit
 class ViewController: UIViewController {
     var data = ["Taipei","Washington","Tokyo","Seoul","London"]
     var jetLag = ["Today, +0HRS","Today, +0HRS","Today, +0HRS","Today, +0HRS","Today, +0HRS"]
-    
     var myNavigationBar = UINavigationBar()
-    var myNavigationbarItem = UINavigationItem(title: "World Clock")
+    var myNavigationbarItem = UINavigationItem(title: "世界鬧鐘")
     var myTableView = UITableView()
     var myTabbarController = UITabBarController()
 
     
-    
+    //Set navigationBar title
+    let attrs = [
+        NSAttributedString.Key.foregroundColor: UIColor.white,
+        NSAttributedString.Key.font: UIFont(name: "Georgia-Bold", size: 18)!
+    ]
     
     //Navigationbar
     func setMyNavigationBar(){
-//        myNavigationBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        myNavigationBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         myNavigationBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         myNavigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        UINavigationBar.appearance().titleTextAttributes = attrs
         myNavigationBar.setItems([myNavigationbarItem], animated: false)
         view.addSubview(myNavigationBar)
     }
@@ -32,9 +36,9 @@ class ViewController: UIViewController {
     //leftbtn
     func setLeftBtn(){
         if myTableView.isEditing == false {
-            myNavigationbarItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,target: self, action: #selector(doneTapped))
+            myNavigationbarItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,target: self, action: #selector(editTapped))
         }else{
-            myNavigationbarItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,target: self, action: #selector(doneTapped))
+            myNavigationbarItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,target: self, action: #selector(editTapped))
         }
     }
     
@@ -43,8 +47,8 @@ class ViewController: UIViewController {
         myNavigationbarItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
     }
     
-//    //leftbtn action
-    @objc func doneTapped(){
+    //leftbtn action
+    @objc func editTapped(){
         if myTableView.isEditing == true {
             myTableView.setEditing(false, animated: true)
             setLeftBtn()
@@ -73,11 +77,9 @@ class ViewController: UIViewController {
     
     
     
-    
-    
-    //tabbar
+    //MARK: -Set tabbar
     func setMyTabBarController(){
-//        myTabbarController.tabBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        myTabbarController.tabBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         myTabbarController.tabBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         myTabbarController.tabBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         let vc1 = WorldClock()
@@ -100,7 +102,7 @@ class ViewController: UIViewController {
     
     
     
-    //constraint區
+    //MARK:- Constraints
     func setTableViewContraints(){
         myTableView.translatesAutoresizingMaskIntoConstraints = false
         myTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -133,13 +135,14 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        view.backgroundColor = .white
+        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         setUI()
         super.viewDidLoad()
         
     }
 }
 
+//MARK:- numbers of row nad section
 extension ViewController: UITableViewDelegate,UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {

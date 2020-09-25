@@ -9,11 +9,9 @@
 
 //拿到暫存資料，確認後再回傳到前一頁的VC protocol這邊要拿到全部的東西再往回傳
 protocol EditAlarmVCDelegate {
-    func editAlarmData(controller: UIViewController)
-    func addAlarmData(controller: UIViewController)
+    func editAlarmData(controller: UIViewController,indexPath:IndexPath)
+    func addAlarmData(controller: UIViewController, indexPath:IndexPath)
 }
-
-
 import UIKit
 
 class EditAlarmVC: UIViewController {
@@ -21,11 +19,13 @@ class EditAlarmVC: UIViewController {
     var editAlarmCellTitle = ["重複","標籤","提示聲","稍後提醒"]
     var editAlarmCellContent = ["每天","鬧鐘","雷達",""]
     var editAlarmNavigationBar = UINavigationBar()
+    //判斷add or edit
     var editAlarmNavigationItem = UINavigationItem(title: "編輯鬧鐘")
     var editAlarmTableView = UITableView()
     var alarmDatePicker = UIDatePicker()
     var delegate:EditAlarmVCDelegate?
     var editStyle:EditStyle?
+    var indexPath: IndexPath = [0,0]
     //MARK: -暫存區，接收改變後的參數，等確定要之後再丟給前面
     var alarmData:AlarmData?
     
@@ -62,12 +62,15 @@ class EditAlarmVC: UIViewController {
     
     //MARK:-設定返回路徑並丟回需要的資料
     @objc func saveSetClock(){
-        alarmData = AlarmData(times: alarmDatePicker.date, label: "鬧鐘")
         //            indexpath enum
+        let vc = Alarm()
+        vc.indexPath = indexPath
+        alarmData = AlarmData(times: alarmDatePicker.date, label: "鬧鐘")
         if editStyle == .edit{
-            delegate?.editAlarmData(controller: self)
+            delegate?.editAlarmData(controller: self,indexPath: indexPath)
         }else{
-            delegate?.addAlarmData(controller: self)
+//            拿到此class的IndexPath
+            delegate?.addAlarmData(controller: self,indexPath: indexPath)
         }
         dismiss(animated: true, completion: nil)
     }
@@ -150,9 +153,6 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
     
     //MARK: -跳轉頁面
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let labelVC = LabelVC()
-        labelVC.textField.text = editAlarmCellContent[indexPath.row]
-        labelVC.delegate = self
         let currentCell = editAlarmTableView.cellForRow(at: indexPath)!
         presentToOtherVC(cellTitle:(currentCell.textLabel?.text)!)
     }
@@ -161,11 +161,13 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         let vc1 = RepeatVC()
         let vc2 = LabelVC()
         let vc3 = SoundVC()
+        vc2.text = editAlarmCellContent[indexPath.row]
+        vc2.delegate = self
         if cellTitle == "重複"{
             present(vc1, animated: true, completion: nil)
         }else if cellTitle == "標籤"{
             present(vc2, animated: true, completion: nil)
-        }else if cellTitle == "提示音"{
+        }else if cellTitle == "提示聲"{
             present(vc3, animated: true, completion: nil)
         }
     }

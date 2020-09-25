@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9701F646251B762A002D5257 /* AlarmModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9701F645251B762A002D5257 /* AlarmModel.swift */; };
+		97739FB5251DAA3C00D0664A /* SoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97739FB4251DAA3C00D0664A /* SoundVC.swift */; };
 		97B23B48250E306300B0AED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B23B47250E306300B0AED8 /* AppDelegate.swift */; };
 		97B23B4A250E306300B0AED8 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B23B49250E306300B0AED8 /* SceneDelegate.swift */; };
 		97B23B4C250E306300B0AED8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B23B4B250E306300B0AED8 /* ViewController.swift */; };
@@ -17,7 +18,6 @@
 		97CB072A251999B5008B00E4 /* EditAlarmCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB0729251999B5008B00E4 /* EditAlarmCell.swift */; };
 		97CB072D2519A1E7008B00E4 /* RepeatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB072C2519A1E7008B00E4 /* RepeatVC.swift */; };
 		97CB072F2519A1FE008B00E4 /* LabelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB072E2519A1FE008B00E4 /* LabelVC.swift */; };
-		97CB07312519A215008B00E4 /* SoundVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CB07302519A215008B00E4 /* SoundVC.swift */; };
 		97ED5A5325146967008BB7F6 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5225146967008BB7F6 /* Cell.swift */; };
 		97ED5A5525149F46008BB7F6 /* WorldClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A5425149F46008BB7F6 /* WorldClock.swift */; };
 		97ED5A572514A5BA008BB7F6 /* AlarmVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97ED5A562514A5BA008BB7F6 /* AlarmVC.swift */; };
@@ -28,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		9701F645251B762A002D5257 /* AlarmModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmModel.swift; sourceTree = "<group>"; };
+		97739FB4251DAA3C00D0664A /* SoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundVC.swift; sourceTree = "<group>"; };
 		97B23B44250E306300B0AED8 /* clock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = clock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97B23B47250E306300B0AED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97B23B49250E306300B0AED8 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,7 +40,6 @@
 		97CB0729251999B5008B00E4 /* EditAlarmCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlarmCell.swift; sourceTree = "<group>"; };
 		97CB072C2519A1E7008B00E4 /* RepeatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatVC.swift; sourceTree = "<group>"; };
 		97CB072E2519A1FE008B00E4 /* LabelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelVC.swift; sourceTree = "<group>"; };
-		97CB07302519A215008B00E4 /* SoundVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundVC.swift; sourceTree = "<group>"; };
 		97ED5A5225146967008BB7F6 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		97ED5A5425149F46008BB7F6 /* WorldClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorldClock.swift; sourceTree = "<group>"; };
 		97ED5A562514A5BA008BB7F6 /* AlarmVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmVC.swift; sourceTree = "<group>"; };
@@ -117,7 +117,7 @@
 			children = (
 				97CB072C2519A1E7008B00E4 /* RepeatVC.swift */,
 				97CB072E2519A1FE008B00E4 /* LabelVC.swift */,
-				97CB07302519A215008B00E4 /* SoundVC.swift */,
+				97739FB4251DAA3C00D0664A /* SoundVC.swift */,
 			);
 			path = "Three Options";
 			sourceTree = "<group>";
@@ -231,7 +231,7 @@
 				97ED5A5D2514A8A5008BB7F6 /* StopWatch.swift in Sources */,
 				97CB072A251999B5008B00E4 /* EditAlarmCell.swift in Sources */,
 				97ED5A572514A5BA008BB7F6 /* AlarmVC.swift in Sources */,
-				97CB07312519A215008B00E4 /* SoundVC.swift in Sources */,
+				97739FB5251DAA3C00D0664A /* SoundVC.swift in Sources */,
 				97ED5A5B2514A5E9008BB7F6 /* Timer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

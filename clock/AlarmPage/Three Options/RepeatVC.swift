@@ -14,7 +14,6 @@ class RepeatVC: UIViewController {
     var dateTableView = UITableView()
     
     func setDateTableView(){
-        dateTableView.frame = CGRect(x: 0, y: 0 , width: view.frame.size.width, height: view.frame.size.height)
         dateTableView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         dateTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         dateTableView.rowHeight = 80
@@ -49,14 +48,18 @@ extension RepeatVC:UITableViewDelegate,UITableViewDataSource{
         return date.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = dateTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        cell.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        cell.accessoryType = UITableViewCell.AccessoryType.checkmark
         cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 18)
         cell.textLabel?.text = date[indexPath.row]
         return cell
     }
     
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        <#code#>
+//    }
 }
