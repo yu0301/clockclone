@@ -15,27 +15,50 @@ protocol EditAlarmVCDelegate {
 import UIKit
 
 class EditAlarmVC: UIViewController {
-    
     var editAlarmCellTitle = ["重複","標籤","提示聲","稍後提醒"]
     var editAlarmCellContent = ["每天","鬧鐘","雷達",""]
-    var editAlarmNavigationBar = UINavigationBar()
-    //判斷add or edit
-    var editAlarmNavigationItem = UINavigationItem(title: "編輯鬧鐘")
-    var editAlarmTableView = UITableView()
-    var alarmDatePicker = UIDatePicker()
+    let editAlarmNavigationBar = UINavigationBar()
+    let editAlarmNavigationItem = UINavigationItem()
+    let editAlarmTableView = UITableView()
+    let alarmDatePicker = UIDatePicker()
+    let alarmVC = Alarm()
     var delegate:EditAlarmVCDelegate?
     var editStyle:EditStyle?
+    var repeatStatus:String?
     var indexPath: IndexPath = [0,1]
+    let fullScreenY = UIScreen.main.bounds.maxY
+    let fullScreenX = UIScreen.main.bounds.maxX
+    let timeLabel = UILabel()
     //MARK: -暫存區，接收改變後的參數，等確定要之後再丟給前面
     var alarmData:AlarmData?
-    
+
     //MARK:- set UI
+    
     func setEditAlarmNavigationBar(){
         editAlarmNavigationBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         editAlarmNavigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         editAlarmNavigationBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         editAlarmNavigationBar.setItems([editAlarmNavigationItem], animated: false)
+        if editStyle == .add {
+            editAlarmNavigationItem.title = "加入鬧鐘"
+        }else{
+            editAlarmNavigationItem.title = "編輯鬧鐘"
+        }
         view.addSubview(editAlarmNavigationBar)
+    }
+    func setTimeLabel(){
+        timeLabel.backgroundColor = .clear
+        timeLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        timeLabel.font = UIFont(name: "HelveticaNeue", size: 18)
+        timeLabel.text = "時間"
+        view.addSubview(timeLabel)
+    }
+    func setAlarmDatePicker(){
+        alarmDatePicker.datePickerMode = .time
+        alarmDatePicker.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        alarmDatePicker.inputView?.backgroundColor = .white
+        alarmDatePicker.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        view.addSubview(alarmDatePicker)
     }
     
     func setEditAlarmTableView(){
@@ -45,15 +68,16 @@ class EditAlarmVC: UIViewController {
         editAlarmTableView.delegate = self
         editAlarmTableView.dataSource = self
         editAlarmTableView.separatorColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
+        editAlarmTableView.tableFooterView = UIView()
         view.addSubview(editAlarmTableView)
     }
     
     func setEditAlarmLeftBTN(){
-        editAlarmNavigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel,target: self, action: #selector(cancelTapped))
+        editAlarmNavigationItem.leftBarButtonItem = UIBarButtonItem(title: "取消", style: .done, target: self, action: #selector(cancelTapped))
     }
     
     func setEditAlarmRightBTN(){
-        editAlarmNavigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSetClock))
+        editAlarmNavigationItem.rightBarButtonItem = UIBarButtonItem(title: "儲存", style: .done, target: self, action: #selector(saveSetClock))
     }
     
     //MARK: -buttom action
@@ -63,14 +87,12 @@ class EditAlarmVC: UIViewController {
     
     //MARK:-設定返回路徑並丟回需要的資料
     @objc func saveSetClock(){
-        //            indexpath enum
-        let vc = Alarm()
-        vc.indexPath = indexPath
-        alarmData = AlarmData(time: dateToDateString(alarmDatePicker.date), status: "鬧鐘")
+        
+        alarmVC.indexPath = indexPath
+        alarmData = AlarmData(time: dateToDateString(alarmDatePicker.date),reapeat:editAlarmCellContent[0] , status: editAlarmCellContent[1])
         if editStyle == .edit{
             delegate?.editAlarmData(controller: self,indexPath: indexPath)
         }else{
-//            拿到此class的IndexPath
             delegate?.addAlarmData(controller: self,indexPath: indexPath)
         }
         dismiss(animated: true, completion: nil)
@@ -86,13 +108,7 @@ class EditAlarmVC: UIViewController {
         return date
     }
     
-    //MARK: -Set clock
-    func setAlarmDatePicker(){
-        print(alarmDatePicker.date)
-        alarmDatePicker.datePickerMode = .time
-        alarmDatePicker.backgroundColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        view.addSubview(alarmDatePicker)
-    }
+   
     //MARK:- Constriants
     func setAlarmNavigationBarConstraints(){
         editAlarmNavigationBar.translatesAutoresizingMaskIntoConstraints = false
@@ -102,16 +118,25 @@ class EditAlarmVC: UIViewController {
         editAlarmNavigationBar.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.065).isActive = true
     }
     
+    func setTimeLabelConstraints(){
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: fullScreenY * -0.28).isActive = true
+        timeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: fullScreenX * -0.3).isActive = true
+        timeLabel.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.05).isActive = true
+        timeLabel.widthAnchor.constraint(equalTo: view.widthAnchor,multiplier: 0.3).isActive = true
+    }
+    
     func setAlarmDatePickerConstraints(){
         alarmDatePicker.translatesAutoresizingMaskIntoConstraints = false
-        alarmDatePicker.topAnchor.constraint(equalTo: editAlarmNavigationBar.bottomAnchor,constant:0).isActive = true
+        alarmDatePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: fullScreenY * -0.28).isActive = true
+        alarmDatePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: fullScreenX * 0.32).isActive = true
         alarmDatePicker.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.05).isActive = true
-        alarmDatePicker.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        alarmDatePicker.widthAnchor.constraint(equalTo: view.widthAnchor,multiplier: 0.22).isActive = true
     }
     
     func setAlarmTableViewConstraints(){
         editAlarmTableView.translatesAutoresizingMaskIntoConstraints = false
-        editAlarmTableView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 30).isActive = true
+        editAlarmTableView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         editAlarmTableView.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.33).isActive = true
         editAlarmTableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
@@ -120,18 +145,25 @@ class EditAlarmVC: UIViewController {
     func setUI(){
         setEditAlarmNavigationBar()
         setAlarmDatePicker()
+        setTimeLabel()
         setEditAlarmTableView()
         setEditAlarmLeftBTN()
         setEditAlarmRightBTN()
         setAlarmNavigationBarConstraints()
         setAlarmDatePickerConstraints()
+        setTimeLabelConstraints()
         setAlarmTableViewConstraints()
     }
     
     override func viewDidLoad() {
+        //alarmVC.alarmArray = AlarmData.loadData() 先loading已儲存檔案
         setUI()
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        editAlarmTableView.reloadData()
     }
 }
 
@@ -143,13 +175,27 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
-        cell.setCell(indexpath: indexPath, data: editAlarmCellTitle)
-        cell.setEditAlarmCellLabel(indexpath: indexPath, data: editAlarmCellContent)
-        cell.setSnoozeSwitchSwitch()
-        cell.setAlarmSwithConstraints()
-        cell.setEditAlarmCellLabelConstraints()
-        return cell
+        
+        switch indexPath.row{
+        case 0...2:
+            let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
+            cell.setCell(indexpath: indexPath, data: editAlarmCellTitle)
+            cell.setEditAlarmCellLabel(indexpath: indexPath, data: editAlarmCellContent)
+            cell.setEditAlarmCellLabelConstraints()
+            return cell
+            
+        case 3:
+            let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
+            cell.setCell(indexpath: indexPath, data: editAlarmCellTitle)
+            cell.setEditAlarmCellLabel(indexpath: indexPath, data: editAlarmCellContent)
+            cell.setEditAlarmCellLabelConstraints()
+            cell.setSnoozeSwitch()
+            return cell
+            
+        default:
+            fatalError()
+        }
+
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -171,26 +217,38 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         let vc1 = RepeatVC()
         let vc2 = LabelVC()
         let vc3 = SoundVC()
+        vc1.delegate = self
         vc2.text = editAlarmCellContent[indexPath.row]
         vc2.delegate = self
         if cellTitle == "重複"{
             present(vc1, animated: true, completion: nil)
+//            navigationController?.pushViewController(vc1, animated: true)
         }else if cellTitle == "標籤"{
+//            navigationController?.pushViewController(vc2, animated: true)
             present(vc2, animated: true, completion: nil)
         }else if cellTitle == "提示聲"{
             present(vc3, animated: true, completion: nil)
         }
     }
 }
-//MARK: -需要四個extension
 
-//MARK: -接收labeltex資料
+//MARK: -接收textField
 extension EditAlarmVC:LabelTextDelegate{
-    func LabelText(controller: UIViewController) {
+    func labelText(controller: UIViewController) {
         if let pushController = controller as? LabelVC {
             let returnedText = pushController.textField.text
             editAlarmCellContent[1] = returnedText!
             editAlarmTableView.reloadData()
         }
+    }
+}
+
+//MARK: -接收repeat
+extension EditAlarmVC:SetRepeatDelegate{
+    func setRepeat (days: [DateRepeat.DaysOfWeek]){
+        //選完的日期經過"uiString"，return狀態
+        editAlarmCellContent[0] = days.uiString
+        editAlarmTableView.reloadData()
+        print(editAlarmCellContent)
     }
 }

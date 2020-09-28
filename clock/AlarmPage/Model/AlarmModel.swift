@@ -10,12 +10,11 @@ import Foundation
 
 struct AlarmData:Codable{
     var time:String
-//    var reapeat:Any
+    var reapeat:String
     var status:String
 //    var sound:Any
     //snooze?
 }
-
 
 enum EditStyle {
     case edit

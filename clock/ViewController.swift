@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     var data = [""]
     var jetLag = [""]
+    let myNavigationController = UINavigationController()
     var myNavigationBar = UINavigationBar()
     var myNavigationbarItem = UINavigationItem(title: "世界鬧鐘")
     var myTableView = UITableView()
@@ -82,10 +83,10 @@ class ViewController: UIViewController {
         myTabbarController.tabBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         myTabbarController.tabBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         myTabbarController.tabBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-        let vc1 = WorldClock()
+        let vc1 = UIViewController()
         let vc2 = Alarm()
-        let vc3 = StopWatch()
-        let vc4 = Timer()
+        let vc3 = UIViewController()
+        let vc4 = UIViewController()
         vc1.tabBarItem.image = UIImage(systemName: "globe")
         vc1.tabBarItem.title = "世界時鐘"
         vc2.tabBarItem.image = UIImage(systemName: "alarm.fill")

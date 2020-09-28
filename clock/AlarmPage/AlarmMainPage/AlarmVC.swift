@@ -8,8 +8,6 @@
 
 import UIKit
 class Alarm: UIViewController{
-    //拿到標籤和時間，分派給個別的元件 model.label model.alarm
-    // 1.鬧鐘label無法傳值 2.delegate也無法執行 3.switch在編輯時無法消失 4.箭頭顏色
     //MARK: -string to date
     func stringConvertDate(string:String, dateFormat:String="HH:mm") -> Date {
         let dateFormatter = DateFormatter.init()
@@ -17,7 +15,6 @@ class Alarm: UIViewController{
         let date = dateFormatter.date(from: string)
         return date!
     }
-    
     //MARK: -date to string
     func dateToDateString(_ date:Date) -> String {
         let timeZone = NSTimeZone.local
@@ -29,16 +26,16 @@ class Alarm: UIViewController{
     }
     
     //MARK: -設定區
-    //    var savedClock:Array<String>?
-    //    var alarm:Array<String>?
-    var savedClock = ["1:12","2:12","3:12"]
-    var alarmLabel = ["ppp","ooo","qqq"]
-    var alarmNavigationBar = UINavigationBar()
+    var alarmLabelData = ["1:12","2:12","3:12"]
+    var statusLabelDate = ["吃飯","起床","睡覺"]
+    var repeatLabelDate = ["，每天","，週末","，平日"]
+    let alarmNavigationBar = UINavigationBar()
     var alarmNavigationItem = UINavigationItem(title: "鬧鐘")
-    var alarmTableView = UITableView()
+    let alarmTableView = UITableView()
     var editStyle:EditStyle?
     var indexPath: IndexPath?
-    
+    var alarmArray = [AlarmData]()
+    //MARK:-
     func setAlarmNavigationBar(){
         alarmNavigationBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         alarmNavigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
@@ -58,10 +55,8 @@ class Alarm: UIViewController{
         alarmTableView.allowsSelectionDuringEditing = true
         alarmTableView.tableFooterView = UIView()
         alarmTableView.separatorColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        alarmTableView.isEditing = false
         view.addSubview(alarmTableView)
     }
-    
     
     //set left btn
     func setAlarmLeftBTN(){
@@ -79,7 +74,6 @@ class Alarm: UIViewController{
     }
     
     @objc func doneTapped(){
-//        alarmNavigationItem.lef
         if alarmTableView.isEditing == true {
             alarmTableView.setEditing(false, animated: true)
             setAlarmLeftBTN()
@@ -91,10 +85,17 @@ class Alarm: UIViewController{
     
     @objc func addTapped(){
         let vc = EditAlarmVC()
+//        let navVC = UINavigationController(rootViewController: vc)
+//        let barAppearance =  UINavigationBarAppearance()
+//        barAppearance.configureWithTransparentBackground()
+//        navVC.navigationBar.standardAppearance = barAppearance
         editStyle = .add
         vc.editStyle = editStyle
-        vc.delegate = self  //判斷路徑用
+        vc.delegate = self
         present(vc, animated: true, completion: nil)
+    }
+    @objc func cancelTapped(){
+        dismiss(animated: true, completion: nil)
     }
     
     //MARK: -Constriants區
@@ -124,12 +125,13 @@ class Alarm: UIViewController{
     }
     
     override func viewDidLoad() {
+        
+        //loaddata 賦值給array
+        alarmArray = UserDefaultData.loadData()
         super.viewDidLoad()
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        alarmTableView.isEditing.toggle()
         setUI()
     }
-    
 }
 
 //MARK: - tableview delegate
@@ -140,29 +142,25 @@ extension Alarm: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return savedClock.count
+        //alarmArray.count
+        return alarmArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! AlarmCell
-        cell.setCell()
-        cell.setClockLabel(indexpath: indexPath, data: savedClock)
-        cell.setAlarmLabel(indexpath: indexPath, data: alarmLabel)
-        cell.setAlarmSwitch()
-        cell.setClockLabelConstraints()
-        cell.setAlarmLabelConstraints()
-        cell.setAlarmSwithConstraints()
+        cell.editingAccessoryView = cell.tailImageView
+        cell.alarmLabel.text = alarmArray[indexPath.row].time
+        cell.statusLabel.text = alarmArray[indexPath.row].status
+        cell.repeatLabel.text = alarmArray[indexPath.row].reapeat
+        
         return cell
     }
-    
     //delete
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-//            alarmTableView.beginUpdates()
-            savedClock.remove(at: indexPath.row)
+            alarmArray.remove(at: indexPath.row)
+            UserDefaultData.saveData(alarmArray: alarmArray)
             alarmTableView.deleteRows(at: [indexPath], with: .fade)
-//            alarmTableView.endUpdates()
         }
     }
     
@@ -173,7 +171,7 @@ extension Alarm: UITableViewDelegate,UITableViewDataSource {
         editStyle = .edit
         vc.editStyle = editStyle
         vc.indexPath = indexPath
-        vc.alarmDatePicker.date = stringConvertDate(string: savedClock[indexPath.row])
+        vc.alarmDatePicker.date = stringConvertDate(string: alarmLabelData[indexPath.row])
         vc.delegate = self
         present(vc, animated: true, completion: nil)
     }
@@ -181,27 +179,39 @@ extension Alarm: UITableViewDelegate,UITableViewDataSource {
 
 extension Alarm:EditAlarmVCDelegate{
     
-    //MARK: -路徑1 修改
+    //MARK: -編輯
     func editAlarmData(controller: UIViewController,indexPath:IndexPath) {
-            if let pushController = controller as? EditAlarmVC{
-                let backClockInDate = pushController.alarmData?.time
-                let backAlarmLabel = pushController.alarmData?.status
-                savedClock[0] = backClockInDate!
-                alarmLabel[0] = backAlarmLabel!
-                alarmTableView.reloadData()
+        if let pushController = controller as? EditAlarmVC{
+            let newAlarmInDate = pushController.alarmData?.time
+            let newStatusLabelData = pushController.alarmData?.status
+            let newRepeatLabelData = pushController.alarmData?.reapeat
+            alarmLabelData[0] = newAlarmInDate!
+            statusLabelDate[0] = newStatusLabelData!
+            repeatLabelDate[0] = newRepeatLabelData!
+            alarmTableView.isEditing = false
+            alarmTableView.reloadData()
         }
     }
-    //MARK: -路徑2 新增
+    //MARK: -新增
     func addAlarmData(controller: UIViewController,indexPath: IndexPath) {
-        let lastInt = savedClock.count
+        let lastInt = alarmLabelData.count
         if let pushController = controller as? EditAlarmVC{
-            let backClockInDate = pushController.alarmData?.time
-            let backAlarmLabel = pushController.alarmData?.status
-            let backClockInString = backClockInDate!
-            savedClock.insert(backClockInString, at: lastInt)
-            alarmLabel.insert(backAlarmLabel!, at: lastInt)
+            let newAlarmInDate = pushController.alarmData?.time
+            let newStatusLabel = pushController.alarmData?.status
+            let newRepeatLabel = pushController.alarmData?.reapeat
+            let newClockInString = newAlarmInDate!
+            alarmLabelData.insert(newClockInString, at: lastInt)
+            statusLabelDate.insert(newStatusLabel!, at: lastInt)
+            repeatLabelDate.insert(newRepeatLabel!, at: lastInt)
+            alarmTableView.isEditing = false
             alarmTableView.reloadData()
-       
+        }
     }
 }
-}
+
+
+//1.叫出cell去接收load的檔案
+//2.savedata
+//3.第二頁創建個別屬性接收
+//4.loaddata
+//5.點完savedata

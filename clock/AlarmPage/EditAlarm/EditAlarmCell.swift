@@ -10,8 +10,11 @@ import UIKit
 
 class EditAlarmCell: UITableViewCell {
 
-    var editAlarmCellLabel = UILabel()
-    var snoozeSwitch = UISwitch()
+    
+        //label拉長，字靠右邊
+    let editAlarmCellLabel = UILabel()
+    let snoozeSwitch = UISwitch()
+    var trailImage = UIImageView(image: UIImage(named: "Forward_Filled"))
     //MARK: -Set UI
     func setEditAlarmCellLabel(indexpath:IndexPath, data:[String]){
         editAlarmCellLabel.backgroundColor = .clear
@@ -20,22 +23,21 @@ class EditAlarmCell: UITableViewCell {
         editAlarmCellLabel.text = data[indexpath.row]
         addSubview(editAlarmCellLabel)
     }
-
     
     func setCell(indexpath:IndexPath, data:[String]){
+        self.selectionStyle = .none
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         self.tintColor = .yellow
         self.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         self.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.textLabel?.font = UIFont(name: "HelveticaNeue", size: 18)
         self.textLabel?.text = data[indexpath.row]
-        
+        self.editingAccessoryView = trailImage
     }
     
-    func setSnoozeSwitchSwitch(){
-        addSubview(snoozeSwitch)
+    func setSnoozeSwitch(){
+       accessoryView = snoozeSwitch
     }
-     
     //MARK:- Constraints
     func setEditAlarmCellLabelConstraints(){
         editAlarmCellLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,13 +45,6 @@ class EditAlarmCell: UITableViewCell {
         editAlarmCellLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         editAlarmCellLabel.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.3).isActive = true
         editAlarmCellLabel.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-    }
-    
-    func setAlarmSwithConstraints(){
-        snoozeSwitch.translatesAutoresizingMaskIntoConstraints = false
-        snoozeSwitch.centerYAnchor.constraint(equalTo:centerYAnchor).isActive = true
-        snoozeSwitch.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.3).isActive = true
-        snoozeSwitch.trailingAnchor.constraint(equalTo:trailingAnchor,constant: 40).isActive = true
     }
     
      override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
