@@ -26,7 +26,6 @@ class UserDefaultData{
         guard let alarmArray = (try? PropertyListDecoder().decode([AlarmData].self, from: alarms)) else {
             print("Load data error.")
             return [AlarmData]() }
-        
         return alarmArray
     }
     

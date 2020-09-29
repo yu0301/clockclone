@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     //Set navigationBar title
     let attrs = [
         NSAttributedString.Key.foregroundColor: UIColor.white,
-        NSAttributedString.Key.font: UIFont(name: "Georgia-Bold", size: 18)!
+        NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)
     ]
     
     //Navigationbar
@@ -61,7 +61,7 @@ class ViewController: UIViewController {
     
     //rightbtn action
     @objc func addTapped(){
-        print(456)
+       
     }
     
     //tableview
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
         myTabbarController.tabBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         myTabbarController.tabBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         let vc1 = UIViewController()
-        let vc2 = Alarm()
+        let vc2 = AlarmViewController()
         let vc3 = UIViewController()
         let vc4 = UIViewController()
         vc1.tabBarItem.image = UIImage(systemName: "globe")

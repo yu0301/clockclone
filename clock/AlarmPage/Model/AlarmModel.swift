@@ -10,13 +10,15 @@ import Foundation
 
 struct AlarmData:Codable{
     var time:String
-    var reapeat:String
     var status:String
-//    var sound:Any
-    //snooze?
+    var repeatStatus:[DateRepeat.DaysOfWeek]
 }
 
 enum EditStyle {
     case edit
     case add
+}
+
+extension DateRepeat.DaysOfWeek: Codable {
+    
 }

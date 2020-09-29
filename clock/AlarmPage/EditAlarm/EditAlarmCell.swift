@@ -16,22 +16,21 @@ class EditAlarmCell: UITableViewCell {
     let snoozeSwitch = UISwitch()
     var trailImage = UIImageView(image: UIImage(named: "Forward_Filled"))
     //MARK: -Set UI
-    func setEditAlarmCellLabel(indexpath:IndexPath, data:[String]){
+    func setEditAlarmCellLabel(){
         editAlarmCellLabel.backgroundColor = .clear
         editAlarmCellLabel.textColor = #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        editAlarmCellLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        editAlarmCellLabel.text = data[indexpath.row]
+        editAlarmCellLabel.font = UIFont.boldSystemFont(ofSize: 18)
         addSubview(editAlarmCellLabel)
     }
     
-    func setCell(indexpath:IndexPath, data:[String]){
+    func setCell(indexPath:IndexPath, title:[String]){
         self.selectionStyle = .none
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
         self.tintColor = .yellow
         self.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         self.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        self.textLabel?.font = UIFont(name: "HelveticaNeue", size: 18)
-        self.textLabel?.text = data[indexpath.row]
+        self.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        self.textLabel?.text = title[indexPath.row]
         self.editingAccessoryView = trailImage
     }
     

@@ -53,7 +53,7 @@ extension Array where Element == DateRepeat.DaysOfWeek {
     var uiStringMain:String{
         switch self {
         case []:
-            return DateRepeat.repeatAdditional.Never.destription
+            return ""
         case [.星期日, .星期一, .星期二, .星期三, .星期四, .星期五, .星期六]:
             return DateRepeat.repeatAdditional.Everday.destription
         case [.星期一, .星期二, .星期三, .星期四, .星期五]:

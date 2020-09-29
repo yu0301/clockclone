@@ -15,6 +15,7 @@ class RepeatVC: UIViewController {
     var repeatArray: [(day:DateRepeat.DaysOfWeek,isSelected:Bool)] =
         DateRepeat.DaysOfWeek.allCases.map { (day: $0, isSelected: false)}
     var delegate: SetRepeatDelegate?
+    var editAlarmVC = EditAlarmVC()
     var date = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
     var dateTableView = UITableView()
     func setDateTableView(){
@@ -35,6 +36,8 @@ class RepeatVC: UIViewController {
     }
     
     override func viewDidLoad() {
+        //要載入前面的repeatArray
+//        let repeatArray = editAlarmVC.repeatStatusArray
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         setDateTableView()
         setAlarmTableViewConstraints()
@@ -68,13 +71,20 @@ extension RepeatVC:UITableViewDelegate,UITableViewDataSource{
         cell.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         cell.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        cell.textLabel?.font = UIFont(name: "HelveticaNeue", size: 18)
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        //如果true則打勾，false則none
+        cell.accessoryType = repeatArray[indexPath.row].isSelected ? .checkmark: .none
         cell.textLabel?.text = date[indexPath.row]
+        
+        //繼承前面的打勾位置
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = dateTableView.cellForRow(at: indexPath) {
+            //點選動畫不立即生效
+            dateTableView.deselectRow(at: indexPath, animated: true)
             if cell.accessoryType == .none {
                 cell.accessoryType = .checkmark
                 //被點到的row其isSelected為true
