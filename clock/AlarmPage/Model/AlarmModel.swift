@@ -6,7 +6,7 @@
 //  Copyright © 2020 KuanYu. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct AlarmData:Codable{
     var time:String
@@ -17,6 +17,19 @@ struct AlarmData:Codable{
 enum EditStyle {
     case edit
     case add
+}
+
+let fullScreenSize = UIScreen.main.bounds.size
+
+enum ScreenSize {
+    case width
+    
+    var value:CGFloat{
+        switch self {
+        case .width:
+            return fullScreenSize.width
+        }
+    }
 }
 
 extension DateRepeat.DaysOfWeek: Codable {

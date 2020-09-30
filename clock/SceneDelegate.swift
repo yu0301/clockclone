@@ -14,16 +14,62 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+      
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+//        let worldClockNC = UINavigationController(rootViewController: WorldClock())
+//        let alarmNC = UINavigationController(rootViewController: AlarmViewController())
+//        let stopWatchNC = UINavigationController(rootViewController:StopWatchVC() )
+//        let timerNC = UINavigationController(rootViewController: TimerVC())
+//
+//        let tabbar = UITabBarController()
+//        tabbar.viewControllers = [worldClockNC,alarmNC,stopWatchNC,timerNC]
+        
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = ViewController()
+        window?.rootViewController = createTabBarcontroller()
         window?.makeKeyAndVisible()
     }
 
+    func creatWorldColockNV() -> UINavigationController {
+        let worldClockVC = WorldClock()
+        worldClockVC.title = "世界鬧鐘"
+        worldClockVC.tabBarItem.image = UIImage(systemName: "globe")
+        return UINavigationController(rootViewController: worldClockVC)
+    }
+    func creatAlarmNV() -> UINavigationController {
+        let alarmVC = AlarmViewController()
+        alarmVC.title = "鬧鐘"
+        alarmVC.tabBarItem.image = UIImage(systemName: "alarm.fill")
+        return UINavigationController(rootViewController: alarmVC)
+    }
+    
+    func creatStopWatchNV() -> UINavigationController {
+        let stopWatchVC = TimerVC()
+        stopWatchVC.title = "碼表"
+        stopWatchVC.tabBarItem.image = UIImage(systemName: "stopwatch.fill")
+        return UINavigationController(rootViewController: stopWatchVC)
+    }
+    
+    func creatTimerNV() -> UINavigationController {
+        let timerVC = TimerVC()
+        timerVC.title = "計時器"
+        timerVC.tabBarItem.image = UIImage(systemName: "timer")
+        return UINavigationController(rootViewController: timerVC)
+    }
+    
+    
+    func createTabBarcontroller() ->UITabBarController {
+        let tabbar = UITabBarController()
+        tabbar.tabBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        tabbar.tabBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        tabbar.tabBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        tabbar.viewControllers = [creatWorldColockNV(),creatAlarmNV(),creatStopWatchNV(),creatTimerNV()]
+        return tabbar
+    }
+    
+    
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

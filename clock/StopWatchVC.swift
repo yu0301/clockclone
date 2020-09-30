@@ -1,19 +1,19 @@
 //
-//  SoundVC.swift
+//  StopWatchVC.swift
 //  clock
 //
-//  Created by 陳冠諭 on 2020/9/25.
+//  Created by 陳冠諭 on 2020/9/29.
 //  Copyright © 2020 KuanYu. All rights reserved.
 //
 
-import AudioToolbox
 import UIKit
 
-class SoundVC: UIViewController {
+class StopWatchVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        AudioServicesPlayAlertSound
+
+        // Do any additional setup after loading the view.
     }
     
 

@@ -31,7 +31,7 @@ class Cell: UITableViewCell {
         capitalLabel.adjustsFontSizeToFitWidth = true
         capitalLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         capitalLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        capitalLabel.font = UIFont.boldSystemFont(ofSize: 25)
+        capitalLabel.font = UIFont.systemFont(ofSize: 25)
         capitalLabel.text = data[indexpath.row]
         addSubview(capitalLabel)
     }
@@ -41,7 +41,7 @@ class Cell: UITableViewCell {
         jetlagLabel.adjustsFontSizeToFitWidth = true
         jetlagLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         jetlagLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        jetlagLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        jetlagLabel.font = UIFont.systemFont(ofSize: 20)
         jetlagLabel.text = data[indexpath.row]
         addSubview(jetlagLabel)
     }

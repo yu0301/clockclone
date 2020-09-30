@@ -21,7 +21,7 @@ class ViewController: UIViewController {
     //Set navigationBar title
     let attrs = [
         NSAttributedString.Key.foregroundColor: UIColor.white,
-        NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18)
+        NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)
     ]
     
     //Navigationbar
@@ -136,7 +136,7 @@ class ViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+//        self.navigationController?.navigationBar.prefersLargeTitles = true
         setUI()
         super.viewDidLoad()
         

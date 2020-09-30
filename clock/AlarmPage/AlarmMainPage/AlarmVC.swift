@@ -10,16 +10,12 @@ class AlarmViewController: UIViewController{
 
     //MARK: -設定區
     let alarmNavigationBar = UINavigationBar()
-    var alarmNavigationItem = UINavigationItem(title: "鬧鐘")
     let alarmTableView = UITableView()
     var editStyle:EditStyle?
     var indexPath: IndexPath?
     var alarmArray = [AlarmData]()
     
     func setAlarmNavigationBar(){
-        alarmNavigationBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        alarmNavigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-        alarmNavigationBar.setItems([alarmNavigationItem], animated: false)
         view.addSubview(alarmNavigationBar)
     }
 
@@ -27,7 +23,7 @@ class AlarmViewController: UIViewController{
         alarmTableView.separatorColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         alarmTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         alarmTableView.register(AlarmCell.self, forCellReuseIdentifier: "Cell")
-        alarmTableView.rowHeight = 80
+        alarmTableView.rowHeight = fullScreenSize.height * 0.1
         alarmTableView.delegate = self
         alarmTableView.dataSource = self
         alarmTableView.allowsSelection = false
@@ -40,14 +36,14 @@ class AlarmViewController: UIViewController{
     func setAlarmLeftBTN(){
         //switch?
         if alarmTableView.isEditing == false {
-            alarmNavigationItem.leftBarButtonItem = UIBarButtonItem(title: "編輯", style: .done, target: self, action: #selector(doneTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "編輯", style: .done, target: self, action: #selector(doneTapped))
         }else{
-            alarmNavigationItem.leftBarButtonItem = UIBarButtonItem(title: "完成", style: .done, target: self, action: #selector(doneTapped))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "完成", style: .done, target: self, action: #selector(doneTapped))
         }
     }
     
     func setAlarmRightBTN(){
-        alarmNavigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addTapped))
     }
     
     @objc func doneTapped(){
@@ -63,14 +59,10 @@ class AlarmViewController: UIViewController{
     @objc func addTapped(){
         let vc = EditAlarmVC()
         let navVC = UINavigationController(rootViewController: vc)
-//                let barAppearance =  UINavigationBarAppearance()
-//                barAppearance.configureWithTransparentBackground()
-//                navVC.navigationBar.standardAppearance = barAppearance
         editStyle = .add
         vc.alarmVC = self
         vc.editStyle = editStyle
        present(navVC, animated: true)
-//        present(vc, animated: true, completion: nil)
     }
     
     @objc func cancelTapped(){
@@ -124,6 +116,8 @@ class AlarmViewController: UIViewController{
         super.viewDidLoad()
         alarmArray = UserDefaultData.loadData()
         setUI()
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 }
 
@@ -160,12 +154,13 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         alarmTableView.allowsSelectionDuringEditing = true
         let vc = EditAlarmVC()
+        let navVC = UINavigationController(rootViewController: vc)
         alarmTableView.setEditing(false, animated: true)
         vc.alarmVC = self
-        vc.editStyle = editStyle
+        vc.editStyle = .edit
         vc.indexPath = indexPath
         vc.alarmDatePicker.date = stringConvertDate(string:  alarmArray[indexPath.row].time)
-        present(vc, animated: true, completion: nil)
+        present(navVC, animated: true, completion: nil)
     }
 }
 

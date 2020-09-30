@@ -39,6 +39,7 @@ class LabelVC: UIViewController {
     
     //MARK:- Action
     override func viewDidLoad() {
+        title = "標籤"
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         setTextField()
         setTextFieldConstraints()

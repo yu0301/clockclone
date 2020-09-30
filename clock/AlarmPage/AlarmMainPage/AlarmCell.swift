@@ -45,7 +45,7 @@ class AlarmCell: UITableViewCell {
         alarmLabel.adjustsFontSizeToFitWidth = true
         alarmLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         alarmLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        alarmLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        alarmLabel.font = UIFont.systemFont(ofSize: 55 )
         alarmLabel.adjustsFontSizeToFitWidth = true
         addSubview(alarmLabel)
     }
@@ -54,9 +54,8 @@ class AlarmCell: UITableViewCell {
         statusLabel.adjustsFontSizeToFitWidth = true
         statusLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         statusLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        statusLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        statusLabel.font = UIFont.systemFont(ofSize: 17)
         statusLabel.adjustsFontSizeToFitWidth = true
-        
         addSubview(statusLabel)
     }
     
@@ -64,7 +63,7 @@ class AlarmCell: UITableViewCell {
         repeatLabel.adjustsFontSizeToFitWidth = true
         repeatLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         repeatLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        repeatLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        repeatLabel.font = UIFont.systemFont(ofSize: 18)
         repeatLabel.adjustsFontSizeToFitWidth = true
 
         addSubview(repeatLabel)
@@ -90,20 +89,26 @@ class AlarmCell: UITableViewCell {
     
     //MARK: -Constraints
     func setAlarmLabelConstraints(){
+        
         alarmLabel.translatesAutoresizingMaskIntoConstraints = false
-        alarmLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: -15).isActive = true
-        alarmLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15).isActive = true
+        alarmLabel.heightAnchor.constraint(equalTo:heightAnchor ,multiplier: fullScreenSize.height * 0.0008).isActive = true
+        alarmLabel.widthAnchor.constraint(equalTo:widthAnchor ,multiplier: fullScreenSize.height * 0.0004).isActive = true
+        alarmLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: fullScreenSize.width * 0.036).isActive = true
     }
 
     func setStatusLabelConstraints(){
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
-        statusLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: 10).isActive = true
-        statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 15).isActive = true
+        statusLabel.topAnchor.constraint(equalTo: alarmLabel.bottomAnchor,constant: fullScreenSize.height * -0.0056).isActive = true
+        statusLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: fullScreenSize.height * 0.00032).isActive = true
+        statusLabel.widthAnchor.constraint(equalTo:widthAnchor ,multiplier: fullScreenSize.width * 0.00025).isActive = true
+        statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: fullScreenSize.width * 0.036).isActive = true
        }
     
     func setRepeatLabelConstraints(){
         repeatLabel.translatesAutoresizingMaskIntoConstraints = false
-        repeatLabel.centerYAnchor.constraint(equalTo: centerYAnchor,constant: 10).isActive = true
+        repeatLabel.topAnchor.constraint(equalTo: alarmLabel.bottomAnchor,constant: fullScreenSize.height * -0.0056).isActive = true
+        repeatLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: fullScreenSize.height * 0.00032).isActive = true
+        repeatLabel.widthAnchor.constraint(equalTo:widthAnchor ,multiplier: fullScreenSize.width * 0.0016).isActive = true
         repeatLabel.leadingAnchor.constraint(equalTo:statusLabel.trailingAnchor).isActive = true
        }
 }
