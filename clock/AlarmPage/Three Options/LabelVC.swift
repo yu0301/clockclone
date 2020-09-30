@@ -16,13 +16,11 @@ class LabelVC: UIViewController {
     var textField = UITextField()
     var delegate:LabelTextDelegate?
     var text:String?
-    //need back navigation
     
     //MARK: -UI Set
     func setTextField(){
         textField.returnKeyType = .done
         textField.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        textField.tintColor = .yellow
         textField.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         textField.text = text
         textField.clearButtonMode = .whileEditing

@@ -12,6 +12,7 @@ struct AlarmData:Codable{
     var time:String
     var status:String
     var repeatStatus:[DateRepeat.DaysOfWeek]
+    //var ringTone:String
 }
 
 enum EditStyle {

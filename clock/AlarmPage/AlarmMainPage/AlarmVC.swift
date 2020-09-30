@@ -62,6 +62,7 @@ class AlarmViewController: UIViewController{
         editStyle = .add
         vc.alarmVC = self
         vc.editStyle = editStyle
+        vc.editAlarmCellContent[1].1.removeAll()
        present(navVC, animated: true)
     }
     

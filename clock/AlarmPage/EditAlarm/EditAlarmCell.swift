@@ -24,15 +24,19 @@ class EditAlarmCell: UITableViewCell {
     
     func setCell(indexPath:IndexPath, title:[String]){
         self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        self.tintColor = .yellow
-        self.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         self.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.textLabel?.font = UIFont.systemFont(ofSize: 18)
         self.textLabel?.adjustsFontSizeToFitWidth = true
         self.textLabel?.text = title[indexPath.row]
-        self.editingAccessoryView = trailImage
     }
     
+    func setDeletecell(){
+        self.textLabel?.textColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
+        self.textLabel?.font = UIFont.systemFont(ofSize: 18)
+        self.textLabel?.adjustsFontSizeToFitWidth = true
+        self.textLabel?.text = "刪除鬧鐘"
+        self.textLabel?.textAlignment = .center
+    }
     
     func setSnoozeSwitch(){
        accessoryView = snoozeSwitch

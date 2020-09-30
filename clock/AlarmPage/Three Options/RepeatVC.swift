@@ -19,7 +19,6 @@ class RepeatVC: UIViewController {
     var date = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
     var dateTableView = UITableView()
     func setDateTableView(){
-        
         dateTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         dateTableView.separatorColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         dateTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
@@ -77,7 +76,6 @@ extension RepeatVC:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = dateTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         cell.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         cell.textLabel?.text = date[indexPath.row]
