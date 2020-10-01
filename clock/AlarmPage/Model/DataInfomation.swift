@@ -46,8 +46,16 @@ extension Array where Element == DataInfomation.DaysOfWeek {
         case [.星期日,.星期六]:
             return DataInfomation.repeatAdditional.Weekend.destription
         default:
-            return map{ $0.rawValue.suffix(1) }.reduce("") { (blank,day ) in
-                "\(blank)週\(day) "}
+            //map:取elements最後一個字
+            let lastCharacter = map{ "週" + $0.rawValue.suffix(1) }
+            //重新排列
+            let sortedElement = lastCharacter.sorted { (day1, day2) -> Bool in
+                return day1.compare(day2)  == ComparisonResult.orderedAscending
+            }
+            //變成字串
+            let arrayToString = sortedElement.reduce("") { (blank,day ) in
+                "\(blank)\(day) "}
+            return arrayToString
         }
     }
     

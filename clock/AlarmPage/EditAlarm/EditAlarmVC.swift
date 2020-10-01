@@ -155,6 +155,7 @@ class EditAlarmVC: UIViewController {
     }
     
     override func viewDidLoad() {
+   
         alarmVC.alarmArray = UserDefaultData.loadData()
         switch editStyle {
         case .add:
@@ -281,6 +282,10 @@ extension EditAlarmVC:SetRepeatDelegate{
     func setRepeat (days: [DataInfomation.DaysOfWeek]){
         //選完的日期經過"uiString"，return狀態
         repeatStatus = days.uiString
+        
+        //soreted the retured data
+        
+        
         DataInfomation.editAlarmCellContent[0].1[0] = repeatStatus
         repeatStatusArray = days
         editAlarmTableView.reloadData()
