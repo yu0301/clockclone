@@ -16,6 +16,7 @@ class EditAlarmVC: UIViewController {
     var alarmVC:AlarmViewController!
     var repeatStatusArray =  [DataInfomation.DaysOfWeek]()
     var repeatStatus:String!
+    var ringTone:String!
     var editStyle:EditStyle?
     var indexPath: IndexPath!
     var isOn:Bool?
@@ -75,7 +76,7 @@ class EditAlarmVC: UIViewController {
         switch editStyle {
         case .add:
             let alarm = AlarmData(time: dateToDateString(alarmDatePicker.date),
-                                  status: DataInfomation.editAlarmCellContent[0].1[1], repeatStatus:repeatStatusArray,
+                                  status: DataInfomation.editAlarmCellContent[0].1[1], repeatStatus:repeatStatusArray, ringTone: DataInfomation.editAlarmCellContent[0].1[2],
                                   isOn: true )
             DataInfomation.editAlarmCellContent[1].1.insert("佔位", at: 0)
             alarmVC?.alarmArray.append(alarm)
@@ -84,6 +85,7 @@ class EditAlarmVC: UIViewController {
             alarmVC.alarmArray[indexPath.row].time = dateToDateString(alarmDatePicker.date)
             alarmVC.alarmArray[indexPath.row].status = DataInfomation.editAlarmCellContent[0].1[1]
             alarmVC.alarmArray[indexPath.row].repeatStatus = repeatStatusArray
+            alarmVC.alarmArray[indexPath.row].ringTone = DataInfomation.editAlarmCellContent[0].1[2]
             alarmVC.alarmArray[indexPath.row].isOn = isOn!
         case .none:
             print("error")
@@ -160,7 +162,7 @@ class EditAlarmVC: UIViewController {
     }
     
     override func viewDidLoad() {
-        
+       
         alarmVC.alarmArray = UserDefaultData.loadData()
         switch editStyle {
         case .add:
@@ -171,12 +173,14 @@ class EditAlarmVC: UIViewController {
             DataInfomation.editAlarmCellContent[0].1[0] =
                 (alarmVC?.alarmArray[indexPath.row].repeatStatus.uiString)!
             DataInfomation.editAlarmCellContent[0].1[1] = (alarmVC?.alarmArray[indexPath.row].status)!
-            DataInfomation.editAlarmCellContent[0].1[2] = "雷達"
+            DataInfomation.editAlarmCellContent[0].1[2] = (alarmVC?.alarmArray[indexPath.row].ringTone)!
             repeatStatusArray = (alarmVC?.alarmArray[indexPath.row].repeatStatus)!
+            ringTone = DataInfomation.editAlarmCellContent[0].1[2]
         case .none:
             print("error")
         }
         
+        print(ringTone)
         editAlarmTableView.reloadData()
         setUI()
         super.viewDidLoad()
@@ -257,11 +261,12 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         vc3.delegate = self
         
         if cellTitle == "重複"{
-            vc1.edidAlarmVC = self
+            vc1.editAlarmVC = self
             navigationController?.pushViewController(vc1, animated: true)
         }else if cellTitle == "標籤"{
             navigationController?.pushViewController(vc2, animated: true)
         }else if cellTitle == "提示聲"{
+            vc3.editAlarmVC = self
             navigationController?.pushViewController(vc3, animated: true)
         }else if cellTitle == "刪除鬧鐘"{
             alarmVC.alarmArray.remove(at: indexPath.row)
@@ -298,7 +303,6 @@ extension EditAlarmVC:LabelTextDelegate{
 //MARK: -接收ringtone
 extension EditAlarmVC:SetRingToneDelegate{
     func setRingTone(index:Int){
-        print(454)
         DataInfomation.editAlarmCellContent[0].1[2] = DataInfomation.ringTone[index]
         editAlarmTableView.reloadData()
     }

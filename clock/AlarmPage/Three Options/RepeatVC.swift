@@ -14,7 +14,7 @@ class RepeatVC: UIViewController {
     var repeatArray: [(day:DataInfomation.DaysOfWeek,isSelected:Bool)] =
         DataInfomation.DaysOfWeek.allCases.map { (day: $0, isSelected: false)}
     var delegate: SetRepeatDelegate?
-    var edidAlarmVC: EditAlarmVC!
+    var editAlarmVC: EditAlarmVC!
     var dateTableView = UITableView()
     var index:Int!
     func setDateTableView(){
@@ -37,7 +37,7 @@ class RepeatVC: UIViewController {
     
     override func viewDidLoad() {
         //把前一頁的日期傳過來
-        let repeatStatusArray = edidAlarmVC.repeatStatusArray
+        let repeatStatusArray = editAlarmVC.repeatStatusArray
         
         //將前一頁的日期與所有的日期進行比較，$0.day == 本地資料，day前頁資料，如果相同則得其index
         for day in repeatStatusArray{

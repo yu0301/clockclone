@@ -11,7 +11,6 @@ import UIKit
 
 class RingToneTableViewCell: UITableViewCell {
 
-    
     let ringToneTitleLabel = UILabel()
     let checkMarkImageView = UIImageView()
     

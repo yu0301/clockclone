@@ -21,7 +21,7 @@ class RingToneVC: UIViewController {
     }
     var index:Int!
     var cell:RingToneTableViewCell?
-    
+    var editAlarmVC:EditAlarmVC!
     var delegate: SetRingToneDelegate?
     //for ringtonearray
     
@@ -49,10 +49,25 @@ class RingToneVC: UIViewController {
     }
     
     override func viewDidLoad() {
+        let savedRingTongArray = editAlarmVC.ringTone
+        print(savedRingTongArray)
+        
+        for _ in savedRingTongArray!{
+            index = ringToneArray.firstIndex(where: { $0 == $0
+            })
+        //再把該index對應的布林值變成true，就會打勾
+            ringToneArray[index].isSelected = true
+        
+        }
+        
+        
         title = "提示聲"
         setRingToneTableView()
         setAlarmTableViewConstraints()
         super.viewDidLoad()
+        
+        //讓前面的鈴聲傳進來，打勾
+        
     }
 }
 
@@ -109,9 +124,6 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
         index = indexPath.row
         //委託給別人做，並把值傳過去
         delegate?.setRingTone(index: index)
-        
-        print(delegate)
-
         ringToneTableView.deselectRow(at: indexPath, animated: true)
     }
 }
