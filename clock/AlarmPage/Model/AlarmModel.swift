@@ -11,7 +11,7 @@ import UIKit
 struct AlarmData:Codable{
     var time:String
     var status:String
-    var repeatStatus:[DateRepeat.DaysOfWeek]
+    var repeatStatus:[DataInfomation.DaysOfWeek]
     //var ringTone:String
 }
 
@@ -33,6 +33,6 @@ enum ScreenSize {
     }
 }
 
-extension DateRepeat.DaysOfWeek: Codable {
+extension DataInfomation.DaysOfWeek: Codable {
     
 }

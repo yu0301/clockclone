@@ -12,6 +12,7 @@ class RingToneTableViewCell: UITableViewCell {
 
     
     let ringToneTitleLabel = UILabel()
+    let checkMarkImageView = UIImageView()
     
     func setRingToneTitleLabel(){
         ringToneTitleLabel.adjustsFontSizeToFitWidth = true
@@ -25,6 +26,7 @@ class RingToneTableViewCell: UITableViewCell {
         ringToneTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         ringToneTitleLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
         ringToneTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        ringToneTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 50).isActive = true
     }
     
     

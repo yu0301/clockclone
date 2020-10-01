@@ -8,6 +8,9 @@
 
 import Foundation
 protocol SetRepeatDelegate {
-    func setRepeat (days: [DateRepeat.DaysOfWeek])
+    func setRepeat (days: [DataInfomation.DaysOfWeek])
 }
 
+protocol SetRingToneDelegate {
+    func setRingTone(index:Int)
+}

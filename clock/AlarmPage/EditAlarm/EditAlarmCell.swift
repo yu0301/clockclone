@@ -31,6 +31,7 @@ class EditAlarmCell: UITableViewCell {
     }
     
     func setDeletecell(){
+        self.accessoryType = UITableViewCell.AccessoryType.none
         self.textLabel?.textColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
         self.textLabel?.font = UIFont.systemFont(ofSize: 18)
         self.textLabel?.adjustsFontSizeToFitWidth = true

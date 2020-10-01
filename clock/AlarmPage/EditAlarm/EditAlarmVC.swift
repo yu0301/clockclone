@@ -9,14 +9,12 @@
 import UIKit
 
 class EditAlarmVC: UIViewController {
-    var editAlarmCellTitle = ["重複","標籤","提示聲","稍後提醒"]
-    var editAlarmCellContent = [("",["永不","鬧鐘","雷達",""]),("",["佔位置用的^.<"])]
     let editAlarmNavigationBar = UINavigationBar()
     let editAlarmNavigationItem = UINavigationItem()
     let editAlarmTableView = UITableView()
     let alarmDatePicker = UIDatePicker()
     var alarmVC:AlarmViewController!
-    var repeatStatusArray =  [DateRepeat.DaysOfWeek]()
+    var repeatStatusArray =  [DataInfomation.DaysOfWeek]()
     var repeatStatus:String!
     var editStyle:EditStyle?
     var indexPath: IndexPath!
@@ -65,8 +63,6 @@ class EditAlarmVC: UIViewController {
     func setEditAlarmRightBTN(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "儲存", style: .done, target: self, action: #selector(saveSetClock))
     }
-    
-    
     //MARK: -buttom action
     @objc func cancelTapped(){
         dismiss(animated: true, completion: nil)
@@ -76,29 +72,26 @@ class EditAlarmVC: UIViewController {
     @objc func saveSetClock(){
         switch editStyle {
         case .add:
-            let alarm = AlarmData(time: dateToDateString(alarmDatePicker.date), status: editAlarmCellContent[0].1[1], repeatStatus:repeatStatusArray )
-            //[1]
-            print(repeatStatusArray)
+            let alarm = AlarmData(time: dateToDateString(alarmDatePicker.date), status: DataInfomation.editAlarmCellContent[0].1[1], repeatStatus:repeatStatusArray )
+            DataInfomation.editAlarmCellContent[1].1.insert("佔位", at: 0)
             alarmVC?.alarmArray.append(alarm)
             
         case .edit:
             alarmVC.alarmArray[indexPath.row].time = dateToDateString(alarmDatePicker.date)
-            alarmVC.alarmArray[indexPath.row].status = editAlarmCellContent[0].1[1]
+            alarmVC.alarmArray[indexPath.row].status = DataInfomation.editAlarmCellContent[0].1[1]
             //[1]
             alarmVC.alarmArray[indexPath.row].repeatStatus = repeatStatusArray
         case .none:
             print("error")
         }
-        
         // 抓出來比大小，越小越前面
         alarmVC.alarmArray.sort { $0.time.compare($1.time) == .orderedAscending
         }
-        
         UserDefaultData.saveData(alarmArray: alarmVC.alarmArray )
         alarmVC?.alarmArray = UserDefaultData.loadData()
         alarmVC?.alarmTableView.reloadData()
         dismiss(animated: true, completion: nil)
-
+        
     }
     
     //MARK: - Date to stiring
@@ -145,6 +138,10 @@ class EditAlarmVC: UIViewController {
     
     //MARK: -設定好的參數
     func setUI(){
+        title = (editStyle == .edit) ? "編輯鬧鐘" : "加入鬧鐘"
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        navigationItem.backButtonTitle = "返回"
         setEditAlarmNavigationBar()
         setAlarmDatePicker()
         setTimeLabel()
@@ -156,31 +153,19 @@ class EditAlarmVC: UIViewController {
         setTimeLabelConstraints()
         setAlarmTableViewConstraints()
     }
+    
     override func viewDidLoad() {
-        if editStyle == .edit{
-            title = "編輯鬧鐘"
-        }else{
-            title = "加入鬧鐘"
-        }
-
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         alarmVC.alarmArray = UserDefaultData.loadData()
         switch editStyle {
         case .add:
-            editAlarmCellContent[0].1[0] = "永不"
-            //[0]
-            editAlarmCellContent[0].1[1] = "鬧鐘"
-            //[1]
-            editAlarmCellContent[0].1[2] = "雷達"
-            //[2]
+            DataInfomation.editAlarmCellContent[0].1[0] = "永不"
+            DataInfomation.editAlarmCellContent[0].1[1] = "鬧鐘"
+            DataInfomation.editAlarmCellContent[0].1[2] = "雷達"
         case.edit:
-            editAlarmCellContent[0].1[0] =
+            DataInfomation.editAlarmCellContent[0].1[0] =
                 (alarmVC?.alarmArray[indexPath.row].repeatStatus.uiString)!
-            //0
-            editAlarmCellContent[0].1[1] = (alarmVC?.alarmArray[indexPath.row].status)!
-            //1
-            editAlarmCellContent[0].1[2] = "雷達"
-            //2
+            DataInfomation.editAlarmCellContent[0].1[1] = (alarmVC?.alarmArray[indexPath.row].status)!
+            DataInfomation.editAlarmCellContent[0].1[2] = "雷達"
             repeatStatusArray = (alarmVC?.alarmArray[indexPath.row].repeatStatus)!
         case .none:
             print("error")
@@ -188,8 +173,6 @@ class EditAlarmVC: UIViewController {
         
         editAlarmTableView.reloadData()
         setUI()
-        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        navigationItem.backButtonTitle = "返回"
         super.viewDidLoad()
     }
     
@@ -211,56 +194,44 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        data[section].1.count
-//        editAlarmCellTitle.count
-        return  editAlarmCellContent[section].1.count
+        return  DataInfomation.editAlarmCellContent[section].1.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section{
         case 0:
-        switch indexPath.row{
-        case 0...2:
-            let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
-            cell.setCell(indexPath:indexPath, title:editAlarmCellTitle)
-            cell.setEditAlarmCellLabel()
-            cell.editAlarmCellLabel.text = editAlarmCellContent[indexPath.section].1[indexPath.row]
-            //indexpath.row
-            cell.setEditAlarmCellLabelConstraints()
-            return cell
-            
-        //單獨放上switch
-        case 3:
-            let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
-            cell.setCell(indexPath:indexPath, title:editAlarmCellTitle)
-            cell.setSnoozeSwitch()
-            return cell
+            switch indexPath.row{
+            case 0...2:
+                let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
+                cell.setCell(indexPath:indexPath, title:DataInfomation.editAlarmCellTitle)
+                cell.setEditAlarmCellLabel()
+                cell.editAlarmCellLabel.text = DataInfomation.editAlarmCellContent[indexPath.section].1[indexPath.row]
+                cell.setEditAlarmCellLabelConstraints()
+                return cell
+                
+            //單獨放上switch
+            case 3:
+                let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
+                cell.setCell(indexPath:indexPath, title:DataInfomation.editAlarmCellTitle)
+                cell.setSnoozeSwitch()
+                return cell
             //增加一個位置
-        default:
-            fatalError()
-        }
-
+            default:
+                fatalError()
+            }
+            
         case 1:
             switch indexPath.row{
             case 0:
-            //針對該格客製化
                 let cell = editAlarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! EditAlarmCell
-                    cell.setDeletecell()
-        return cell
+                cell.setCell(indexPath:indexPath, title:DataInfomation.editAlarmCellTitle)
+                cell.setDeletecell()
+                return cell
+            default:
+                fatalError()
+            }
         default:
             fatalError()
-        }
-        default:
-            fatalError()
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            editAlarmTableView.beginUpdates()
-            editAlarmTableView.deleteRows(at: [indexPath], with: .fade)
-            editAlarmCellTitle.remove(at: indexPath.row)
-            editAlarmTableView.endUpdates()
         }
     }
     
@@ -275,15 +246,21 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         let vc2 = LabelVC()
         let vc3 = RingToneVC()
         vc1.delegate = self
-        vc2.text = editAlarmCellContent[0].1[1]
-        //[1]
+        vc2.text = DataInfomation.editAlarmCellContent[0].1[1]
         vc2.delegate = self
+        
         if cellTitle == "重複"{
+            vc1.edidAlarmVC = self
             navigationController?.pushViewController(vc1, animated: true)
         }else if cellTitle == "標籤"{
             navigationController?.pushViewController(vc2, animated: true)
         }else if cellTitle == "提示聲"{
             navigationController?.pushViewController(vc3, animated: true)
+        }else if cellTitle == "刪除鬧鐘"{
+            alarmVC.alarmArray.remove(at: indexPath.row)
+            UserDefaultData.saveData(alarmArray: alarmVC.alarmArray)
+            alarmVC.alarmTableView.reloadData()
+            dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -292,9 +269,8 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
 extension EditAlarmVC:LabelTextDelegate{
     func labelText(controller: UIViewController) {
         if let pushController = controller as? LabelVC {
-            let returnedText = pushController.textField.text
-            editAlarmCellContent[0].1[1] = returnedText!
-            //[1]
+            let newLabelText = pushController.textField.text!
+            DataInfomation.editAlarmCellContent[0].1[1] = (newLabelText.isEmpty) ? "鬧鐘":newLabelText
             editAlarmTableView.reloadData()
         }
     }
@@ -302,11 +278,10 @@ extension EditAlarmVC:LabelTextDelegate{
 
 //MARK: -接收repeat
 extension EditAlarmVC:SetRepeatDelegate{
-    func setRepeat (days: [DateRepeat.DaysOfWeek]){
+    func setRepeat (days: [DataInfomation.DaysOfWeek]){
         //選完的日期經過"uiString"，return狀態
         repeatStatus = days.uiString
-        editAlarmCellContent[0].1[0] = repeatStatus
-        //[0]
+        DataInfomation.editAlarmCellContent[0].1[0] = repeatStatus
         repeatStatusArray = days
         editAlarmTableView.reloadData()
     }

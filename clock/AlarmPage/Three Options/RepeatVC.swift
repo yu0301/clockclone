@@ -9,15 +9,14 @@
 import UIKit
 
 class RepeatVC: UIViewController {
-    
     //將拿到的array map，被點選到的會有一個bool
     //(,) tuple?
-    var repeatArray: [(day:DateRepeat.DaysOfWeek,isSelected:Bool)] =
-        DateRepeat.DaysOfWeek.allCases.map { (day: $0, isSelected: false)}
+    var repeatArray: [(day:DataInfomation.DaysOfWeek,isSelected:Bool)] =
+        DataInfomation.DaysOfWeek.allCases.map { (day: $0, isSelected: false)}
     var delegate: SetRepeatDelegate?
-    var editAlarmVC = EditAlarmVC()
-    var date = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"]
+    var edidAlarmVC: EditAlarmVC!
     var dateTableView = UITableView()
+    var index:Int!
     func setDateTableView(){
         dateTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         dateTableView.separatorColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
@@ -37,9 +36,18 @@ class RepeatVC: UIViewController {
     }
     
     override func viewDidLoad() {
+        //把前一頁的日期傳過來
+        let repeatStatusArray = edidAlarmVC.repeatStatusArray
+        
+        //將前一頁的日期與所有的日期進行比較，$0.day == 本地資料，day前頁資料，如果相同則得其index
+        for day in repeatStatusArray{
+            index = repeatArray.firstIndex(where: { $0.day == day
+            })
+        //再把該index對應的布林值變成true，就會打勾
+        repeatArray[index].isSelected = true
+        }
+     
         title = "重複"
-        //要載入前面的repeatArray
-//        let repeatArray = editAlarmVC.repeatStatusArray
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         setDateTableView()
         setAlarmTableViewConstraints()
@@ -52,10 +60,10 @@ class RepeatVC: UIViewController {
         let repeatStatus = repeatArray.filter({ (day) -> Bool in
             day.isSelected
         })
-        print(repeatStatus)
+        
         //打勾的值有兩個，一個是日期一個是有沒有被選，把日期當作參數傳出去
         delegate?.setRepeat(days: repeatStatus.map { $0.day})
-
+        
     }
 }
 
@@ -71,14 +79,14 @@ extension RepeatVC:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return date.count
+        return repeatArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = dateTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        cell.textLabel?.text = date[indexPath.row]
+        cell.textLabel?.text = repeatArray[indexPath.row].day.rawValue
         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
         //如果true則打勾，false則none

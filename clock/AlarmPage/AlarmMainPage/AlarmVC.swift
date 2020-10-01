@@ -57,12 +57,16 @@ class AlarmViewController: UIViewController{
     }
     
     @objc func addTapped(){
+        if alarmTableView.isEditing == true {
+            alarmTableView.setEditing(false, animated: true)
+            setAlarmLeftBTN()
+        }
         let vc = EditAlarmVC()
         let navVC = UINavigationController(rootViewController: vc)
-        editStyle = .add
         vc.alarmVC = self
+        editStyle = .add
         vc.editStyle = editStyle
-        vc.editAlarmCellContent[1].1.removeAll()
+        DataInfomation.editAlarmCellContent[1].1.removeAll()
        present(navVC, animated: true)
     }
     
@@ -156,14 +160,18 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
         alarmTableView.allowsSelectionDuringEditing = true
         let vc = EditAlarmVC()
         let navVC = UINavigationController(rootViewController: vc)
-        alarmTableView.setEditing(false, animated: true)
         vc.alarmVC = self
         vc.editStyle = .edit
         vc.indexPath = indexPath
         vc.alarmDatePicker.date = stringConvertDate(string:  alarmArray[indexPath.row].time)
+        if alarmTableView.isEditing == true {
+            alarmTableView.setEditing(false, animated: true)
+            setAlarmLeftBTN()
+        }
         present(navVC, animated: true, completion: nil)
     }
 }
 
-
-
+//24小時至
+//儲存完後 開啟狀態
+//重複的標籤，順序要排好

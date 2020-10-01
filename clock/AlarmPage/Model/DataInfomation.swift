@@ -8,8 +8,10 @@
 
 import Foundation
 
-enum DateRepeat{
-    
+enum DataInfomation{
+    static var editAlarmCellTitle = ["重複","標籤","提示聲","稍後提醒"]
+    static var editAlarmCellContent = [("",["永不","鬧鐘","雷達",""]),("",["佔位置用的^.<"])]
+    static let ringTone = ["111","222","333","444","555","666","777","888","999"]
     
     enum DaysOfWeek: String,CaseIterable {
         case 星期日, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六
@@ -31,18 +33,18 @@ enum DateRepeat{
 
 //當array的型別等於DateRepeat.DaysOfWeek時，則有此extension內的功能
 //讀取裡頭變數時，會根據array中的元素進行switch case 執行相對對應的動作
-extension Array where Element == DateRepeat.DaysOfWeek {
+extension Array where Element == DataInfomation.DaysOfWeek {
     
     var uiString:String {
         switch self {
         case []:
-            return DateRepeat.repeatAdditional.Never.destription
+            return DataInfomation.repeatAdditional.Never.destription
         case [.星期日, .星期一, .星期二, .星期三, .星期四, .星期五, .星期六]:
-            return DateRepeat.repeatAdditional.Everday.destription
+            return DataInfomation.repeatAdditional.Everday.destription
         case [.星期一, .星期二, .星期三, .星期四, .星期五]:
-            return DateRepeat.repeatAdditional.Weekday.destription
+            return DataInfomation.repeatAdditional.Weekday.destription
         case [.星期日,.星期六]:
-            return DateRepeat.repeatAdditional.Weekend.destription
+            return DataInfomation.repeatAdditional.Weekend.destription
         default:
             return map{ $0.rawValue.suffix(1) }.reduce("") { (blank,day ) in
                 "\(blank)週\(day) "}
@@ -54,11 +56,11 @@ extension Array where Element == DateRepeat.DaysOfWeek {
         case []:
             return ""
         case [.星期日, .星期一, .星期二, .星期三, .星期四, .星期五, .星期六]:
-            return DateRepeat.repeatAdditional.Everday.destription
+            return DataInfomation.repeatAdditional.Everday.destription
         case [.星期一, .星期二, .星期三, .星期四, .星期五]:
-            return "，每個\(DateRepeat.repeatAdditional.Weekday.destription)"
+            return "，每個\(DataInfomation.repeatAdditional.Weekday.destription)"
         case [.星期日,.星期六]:
-            return "，每個\(DateRepeat.repeatAdditional.Weekend.destription)"
+            return "，每個\(DataInfomation.repeatAdditional.Weekend.destription)"
         default:
             return ", \(uiString)"
         }

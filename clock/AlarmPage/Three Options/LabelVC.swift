@@ -51,10 +51,11 @@ class LabelVC: UIViewController {
     }
 }
 
+//按return時觸發
 extension LabelVC:UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         delegate?.labelText(controller: self)
-        navigationController?.popViewController(animated: true)
+//        navigationController?.popViewController(animated: true)
         return true
     }
 }

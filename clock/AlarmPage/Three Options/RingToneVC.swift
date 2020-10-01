@@ -10,7 +10,16 @@ import AudioToolbox
 import UIKit
 
 class RingToneVC: UIViewController {
-    let ringTone = ["111","222","333","444"]
+//    將拿到的array map，被點選到的會有一個bool
+    //(,) tuple?
+    var ringToneArray:[(ringTong:String,isSlected:Bool)] = DataInfomation.ringTone.map{
+        (ringtone:$0,isSelected: false)
+    }
+    var delegate: SetRingToneDelegate?
+//    var setAlarmVC = 
+    //for ringtonearray
+    var index:Int!
+    let ringTone = ["雷達(預設值)","上升","山坡","公告",""]
     let ringToneTableView = UITableView()
     func setRingToneTableView(){
         ringToneTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -39,6 +48,8 @@ class RingToneVC: UIViewController {
         setAlarmTableViewConstraints()
         super.viewDidLoad()
     }
+
+    
 }
 
 
@@ -73,13 +84,6 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
         cell.setRingToneTitleLabel()
         cell.ringToneTitleLabel.text = ringTone[indexPath.row]
         cell.setRingToneTitleLabelConstraint()
-       
-//        cell.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-//        cell.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-//        cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-//        cell.textLabel?.text = ringTone[indexPath.row]
-//        cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
-//        cell.textLabel?.adjustsFontSizeToFitWidth = true
         return cell
     }
     
@@ -87,10 +91,13 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
         return "鈴聲"
     }
     
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = ringToneTableView.cellForRow(at: indexPath) {
             //點選動畫不立即生效
+            
+            
+            
+            
             ringToneTableView.deselectRow(at: indexPath, animated: true)
             
         }
