@@ -47,13 +47,14 @@ extension Array where Element == DataInfomation.DaysOfWeek {
             return DataInfomation.repeatAdditional.Weekend.destription
         default:
             //map:取elements最後一個字
-            let lastCharacter = map{ "週" + $0.rawValue.suffix(1) }
-            //重新排列
-            let sortedElement = lastCharacter.sorted { (day1, day2) -> Bool in
-                return day1.compare(day2)  == ComparisonResult.orderedAscending
+            var lastCharacter = map{ "週" + $0.rawValue.suffix(1) }
+            //如果有週日會排第一，所以要把他移除再放到最後一個
+            if lastCharacter[0] == "週日"{
+                lastCharacter.removeFirst()
+                lastCharacter.append("週日")
             }
-            //變成字串
-            let arrayToString = sortedElement.reduce("") { (blank,day ) in
+            //轉成字串
+            let arrayToString = lastCharacter.reduce("") { (blank,day ) in
                 "\(blank)\(day) "}
             return arrayToString
         }
