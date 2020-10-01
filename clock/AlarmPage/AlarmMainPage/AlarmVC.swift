@@ -172,6 +172,4 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
     }
 }
 
-//24小時至
 //儲存完後 開啟狀態
-//重複的標籤，順序要排好

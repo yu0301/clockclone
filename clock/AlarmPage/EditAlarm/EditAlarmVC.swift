@@ -38,6 +38,7 @@ class EditAlarmVC: UIViewController {
         view.addSubview(timeLabel)
     }
     func setAlarmDatePicker(){
+        alarmDatePicker.locale = Locale(identifier: "en_GB")
         alarmDatePicker.datePickerMode = .time
         alarmDatePicker.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         alarmDatePicker.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
@@ -126,7 +127,7 @@ class EditAlarmVC: UIViewController {
         alarmDatePicker.centerYAnchor.constraint(equalTo: view.centerYAnchor,constant: fullScreenY * -0.28).isActive = true
         alarmDatePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor,constant: fullScreenX * 0.32).isActive = true
         alarmDatePicker.heightAnchor.constraint(equalTo: view.heightAnchor,multiplier: 0.05).isActive = true
-        alarmDatePicker.widthAnchor.constraint(equalTo: view.widthAnchor,multiplier: 0.24).isActive = true
+        alarmDatePicker.widthAnchor.constraint(equalTo: view.widthAnchor,multiplier: 0.17).isActive = true
     }
     
     func setAlarmTableViewConstraints(){
