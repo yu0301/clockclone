@@ -6,20 +6,26 @@
 //  Copyright © 2020 KuanYu. All rights reserved.
 //
 
-import AudioToolbox
+//import AudioToolbox
 import UIKit
+
+protocol SetRingToneDelegate{
+    func setRingTone(index:Int)
+}
 
 class RingToneVC: UIViewController {
 //    將拿到的array map，被點選到的會有一個bool
     //(,) tuple?
-    var ringToneArray:[(ringTong:String,isSlected:Bool)] = DataInfomation.ringTone.map{
+    var ringToneArray:[(ringTong:String,isSelected:Bool)] = DataInfomation.ringTone.map{
         (ringtone:$0,isSelected: false)
     }
-    var delegate: SetRingToneDelegate?
-//    var setAlarmVC = 
-    //for ringtonearray
     var index:Int!
-    let ringTone = ["雷達(預設值)","上升","山坡","公告",""]
+    var cell:RingToneTableViewCell?
+    
+    var delegate: SetRingToneDelegate?
+    //for ringtonearray
+    
+    let ringTone = DataInfomation.ringTone
     let ringToneTableView = UITableView()
     func setRingToneTableView(){
         ringToneTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
@@ -48,8 +54,6 @@ class RingToneVC: UIViewController {
         setAlarmTableViewConstraints()
         super.viewDidLoad()
     }
-
-    
 }
 
 
@@ -82,8 +86,10 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = ringToneTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RingToneTableViewCell
         cell.setRingToneTitleLabel()
+        cell.setCheckMarkImageView()
         cell.ringToneTitleLabel.text = ringTone[indexPath.row]
         cell.setRingToneTitleLabelConstraint()
+        cell.setCheckMarkImageViewConstriant()
         return cell
     }
     
@@ -92,14 +98,20 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = ringToneTableView.cellForRow(at: indexPath) {
-            //點選動畫不立即生效
-            
-            
-            
-            
-            ringToneTableView.deselectRow(at: indexPath, animated: true)
-            
+        if let cell = ringToneTableView.cellForRow(at: indexPath) as? RingToneTableViewCell {
+            //如果為true則打勾否則什麼都沒
+            ringToneArray[indexPath.row].isSelected = true
+            cell.checkMarkImageView.image = ringToneArray[indexPath.row].isSelected ? UIImage(named: "checkmark") : nil
+            self.cell?.checkMarkImageView.image = nil
+            self.cell = cell
         }
+        //被選到的那格
+        index = indexPath.row
+        //委託給別人做，並把值傳過去
+        delegate?.setRingTone(index: index)
+        
+        print(delegate)
+
+        ringToneTableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class RingToneTableViewCell: UITableViewCell {
 
     
@@ -22,11 +23,25 @@ class RingToneTableViewCell: UITableViewCell {
         addSubview(ringToneTitleLabel)
     }
     
+    func setCheckMarkImageView(){
+        checkMarkImageView.frame = CGRect(x: 20, y: 20, width: 40, height: 40)
+        checkMarkImageView.image = UIImage(named: "fateOrange")
+        addSubview(checkMarkImageView)
+    }
+    
     func setRingToneTitleLabelConstraint(){
         ringToneTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         ringToneTitleLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
         ringToneTitleLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         ringToneTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 50).isActive = true
+    }
+    
+    func setCheckMarkImageViewConstriant(){
+        checkMarkImageView.translatesAutoresizingMaskIntoConstraints = false
+        checkMarkImageView.topAnchor.constraint(equalTo: topAnchor,constant: 5).isActive = true
+        checkMarkImageView.bottomAnchor.constraint(equalTo: bottomAnchor,constant: -5).isActive = true
+        checkMarkImageView.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 15).isActive = true
+        checkMarkImageView.widthAnchor.constraint(equalTo: widthAnchor,multiplier: 0.08).isActive = true
     }
     
     

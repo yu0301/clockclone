@@ -12,6 +12,7 @@ struct AlarmData:Codable{
     var time:String
     var status:String
     var repeatStatus:[DataInfomation.DaysOfWeek]
+    var isOn:Bool
     //var ringTone:String
 }
 

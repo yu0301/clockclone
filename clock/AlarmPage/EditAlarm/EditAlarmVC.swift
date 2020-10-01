@@ -18,6 +18,7 @@ class EditAlarmVC: UIViewController {
     var repeatStatus:String!
     var editStyle:EditStyle?
     var indexPath: IndexPath!
+    var isOn:Bool?
     let fullScreenY = UIScreen.main.bounds.maxY
     let fullScreenX = UIScreen.main.bounds.maxX
     let timeLabel = UILabel()
@@ -73,21 +74,24 @@ class EditAlarmVC: UIViewController {
     @objc func saveSetClock(){
         switch editStyle {
         case .add:
-            let alarm = AlarmData(time: dateToDateString(alarmDatePicker.date), status: DataInfomation.editAlarmCellContent[0].1[1], repeatStatus:repeatStatusArray )
+            let alarm = AlarmData(time: dateToDateString(alarmDatePicker.date),
+                                  status: DataInfomation.editAlarmCellContent[0].1[1], repeatStatus:repeatStatusArray,
+                                  isOn: true )
             DataInfomation.editAlarmCellContent[1].1.insert("佔位", at: 0)
             alarmVC?.alarmArray.append(alarm)
             
         case .edit:
             alarmVC.alarmArray[indexPath.row].time = dateToDateString(alarmDatePicker.date)
             alarmVC.alarmArray[indexPath.row].status = DataInfomation.editAlarmCellContent[0].1[1]
-            //[1]
             alarmVC.alarmArray[indexPath.row].repeatStatus = repeatStatusArray
+            alarmVC.alarmArray[indexPath.row].isOn = isOn!
         case .none:
             print("error")
         }
-        // 抓出來比大小，越小越前面
+        // 時間比大小，越小越前面
         alarmVC.alarmArray.sort { $0.time.compare($1.time) == .orderedAscending
         }
+
         UserDefaultData.saveData(alarmArray: alarmVC.alarmArray )
         alarmVC?.alarmArray = UserDefaultData.loadData()
         alarmVC?.alarmTableView.reloadData()
@@ -156,7 +160,7 @@ class EditAlarmVC: UIViewController {
     }
     
     override func viewDidLoad() {
-   
+        
         alarmVC.alarmArray = UserDefaultData.loadData()
         switch editStyle {
         case .add:
@@ -250,6 +254,7 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
         vc1.delegate = self
         vc2.text = DataInfomation.editAlarmCellContent[0].1[1]
         vc2.delegate = self
+        vc3.delegate = self
         
         if cellTitle == "重複"{
             vc1.edidAlarmVC = self
@@ -267,6 +272,18 @@ extension EditAlarmVC: UITableViewDelegate,UITableViewDataSource {
     }
 }
 
+
+//MARK: -接收repeat
+extension EditAlarmVC:SetRepeatDelegate{
+    func setRepeat (days: [DataInfomation.DaysOfWeek]){
+        //選完的日期經過"uiString"，return狀態
+        repeatStatus = days.uiString
+        DataInfomation.editAlarmCellContent[0].1[0] = repeatStatus
+        repeatStatusArray = days
+        editAlarmTableView.reloadData()
+    }
+}
+
 //MARK: -接收textField
 extension EditAlarmVC:LabelTextDelegate{
     func labelText(controller: UIViewController) {
@@ -278,17 +295,11 @@ extension EditAlarmVC:LabelTextDelegate{
     }
 }
 
-//MARK: -接收repeat
-extension EditAlarmVC:SetRepeatDelegate{
-    func setRepeat (days: [DataInfomation.DaysOfWeek]){
-        //選完的日期經過"uiString"，return狀態
-        repeatStatus = days.uiString
-        
-        //soreted the retured data
-        
-        
-        DataInfomation.editAlarmCellContent[0].1[0] = repeatStatus
-        repeatStatusArray = days
+//MARK: -接收ringtone
+extension EditAlarmVC:SetRingToneDelegate{
+    func setRingTone(index:Int){
+        print(454)
+        DataInfomation.editAlarmCellContent[0].1[2] = DataInfomation.ringTone[index]
         editAlarmTableView.reloadData()
     }
 }

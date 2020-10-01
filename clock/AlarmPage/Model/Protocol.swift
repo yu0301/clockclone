@@ -11,6 +11,4 @@ protocol SetRepeatDelegate {
     func setRepeat (days: [DataInfomation.DaysOfWeek])
 }
 
-protocol SetRingToneDelegate {
-    func setRingTone(index:Int)
-}
+

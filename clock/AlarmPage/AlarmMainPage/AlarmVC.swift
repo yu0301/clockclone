@@ -143,9 +143,14 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
         cell.alarmLabel.text = alarmArray[indexPath.row].time
         cell.statusLabel.text = alarmArray[indexPath.row].status
         cell.repeatLabel.text = alarmArray[indexPath.row].repeatStatus.uiStringMain
-
+        cell.alarmSwitch.isOn = alarmArray[indexPath.row].isOn
         return cell
     }
+    
+    
+    
+    
+    
     //delete
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -163,6 +168,7 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
         vc.alarmVC = self
         vc.editStyle = .edit
         vc.indexPath = indexPath
+        vc.isOn = alarmArray[indexPath.row].isOn
         vc.alarmDatePicker.date = stringConvertDate(string:  alarmArray[indexPath.row].time)
         if alarmTableView.isEditing == true {
             alarmTableView.setEditing(false, animated: true)
@@ -172,7 +178,4 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
     }
 }
 
-
-
 //儲存完後 開啟狀態
-

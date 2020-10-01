@@ -47,15 +47,15 @@ extension Array where Element == DataInfomation.DaysOfWeek {
             return DataInfomation.repeatAdditional.Weekend.destription
         default:
             //map:取elements最後一個字
-            var lastCharacter = map{ "週" + $0.rawValue.suffix(1) }
-            //如果有週日會排第一，所以要把他移除再放到最後一個
-            if lastCharacter[0] == "週日"{
+            var lastCharacter = map{$0.rawValue.suffix(1) }
+            //"日"會排第一，所以要把它移除再放到最後一個
+            if lastCharacter[0] == "日"{
                 lastCharacter.removeFirst()
-                lastCharacter.append("週日")
+                lastCharacter.append("日")
             }
             //轉成字串
             let arrayToString = lastCharacter.reduce("") { (blank,day ) in
-                "\(blank)\(day) "}
+                "\(blank)週\(day) "}
             return arrayToString
         }
     }

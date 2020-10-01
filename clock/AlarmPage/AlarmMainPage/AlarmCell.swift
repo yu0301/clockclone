@@ -32,6 +32,7 @@ class AlarmCell: UITableViewCell {
     var statusLabel = UILabel()
     var repeatLabel = UILabel()
     var alarmSwitch = UISwitch()
+    var isOn:Bool?
     var tailImageView = UIImageView(image: UIImage(named: "Forward_Filled"))
     
     func setCell(){
@@ -80,7 +81,7 @@ class AlarmCell: UITableViewCell {
             alarmLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             repeatLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        }else{
+        }else if alarmSwitch.isOn == false{
             alarmLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             statusLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             repeatLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
