@@ -43,9 +43,8 @@ class AlarmCell: UITableViewCell {
     }
     
     func setAlarmLabel(){
+        alarmLabel.textColor = (isOn == true) ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) : #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         alarmLabel.adjustsFontSizeToFitWidth = true
-        alarmLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        alarmLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         alarmLabel.font = UIFont.systemFont(ofSize: 55 )
         alarmLabel.adjustsFontSizeToFitWidth = true
         addSubview(alarmLabel)
@@ -53,7 +52,6 @@ class AlarmCell: UITableViewCell {
     
     func setStatusLabel(){
         statusLabel.adjustsFontSizeToFitWidth = true
-        statusLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         statusLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         statusLabel.font = UIFont.systemFont(ofSize: 17)
         statusLabel.adjustsFontSizeToFitWidth = true
@@ -62,11 +60,9 @@ class AlarmCell: UITableViewCell {
     
     func setRepeatLabel(){
         repeatLabel.adjustsFontSizeToFitWidth = true
-        repeatLabel.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         repeatLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         repeatLabel.font = UIFont.systemFont(ofSize: 18)
         repeatLabel.adjustsFontSizeToFitWidth = true
-
         addSubview(repeatLabel)
     }
     
@@ -76,6 +72,7 @@ class AlarmCell: UITableViewCell {
         alarmSwitch.addTarget(self, action: #selector(changeAlarmTextColor), for: .touchUpInside)
         self.accessoryView = alarmSwitch
     }
+    
     @objc func changeAlarmTextColor(){
         if alarmSwitch.isOn == true{
             alarmLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)

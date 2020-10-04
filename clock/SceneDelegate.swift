@@ -59,7 +59,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     
-    func createTabBarcontroller() ->UITabBarController {
+    func createTabBarcontroller() -> UITabBarController {
         let tabbar = UITabBarController()
         tabbar.tabBar.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         tabbar.tabBar.barTintColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)

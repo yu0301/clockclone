@@ -10,8 +10,8 @@ import Foundation
 
 enum DataInfomation{
     static var editAlarmCellTitle = ["重複","標籤","提示聲","稍後提醒"]
-    static var editAlarmCellContent = [("",["永不","鬧鐘","雷達",""]),("",["佔位置用的^.<"])]
-    static let ringTone = ["111","222","333","444","555","666","777","888","999"]
+    static var editAlarmCellContent = [("",["永不","鬧鐘","雷達",""]),("",["佔位置用的"])]
+    static let ringTone = ["雷達","222","333","444","555","666","777","888","999"]
     
     enum DaysOfWeek: String,CaseIterable {
         case 星期日, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六

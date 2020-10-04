@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol SetRepeatDelegate {
+    func setRepeat (days: [DataInfomation.DaysOfWeek])
+}
+
 class RepeatVC: UIViewController {
     //將拿到的array map，被點選到的會有一個bool
     //(,) tuple?
@@ -35,22 +39,27 @@ class RepeatVC: UIViewController {
         dateTableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
     }
     
-    override func viewDidLoad() {
-        //把前一頁的日期傳過來
-        let repeatStatusArray = editAlarmVC.repeatStatusArray
-        
-        //將前一頁的日期與所有的日期進行比較，$0.day == 本地資料，day前頁資料，如果相同則得其index
-        for day in repeatStatusArray{
-            index = repeatArray.firstIndex(where: { $0.day == day
-            })
-        //再把該index對應的布林值變成true，就會打勾
-        repeatArray[index].isSelected = true
-        }
-     
+    func setUI(){
         title = "重複"
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         setDateTableView()
         setAlarmTableViewConstraints()
+    }
+    
+    override func viewDidLoad() {
+        //把前一頁的日期傳過來
+        let repeatStatusArray = editAlarmVC.repeatStatusArray
+        
+        //將前一頁的日期與所有的日期進行比較，$0.day == 本頁資料，day前頁資料，如果前頁資料的等於本業資料則得其index
+        //return Int
+        for day in repeatStatusArray{
+            index = repeatArray.firstIndex(where: { $0.day == day
+            })
+            //再把該index對應的布林值變成true，就會打勾
+            repeatArray[index].isSelected = true
+        }
+     
+        setUI()
         super.viewDidLoad()
     }
     
@@ -67,6 +76,7 @@ class RepeatVC: UIViewController {
     }
 }
 
+//MARK: - tableview set
 extension RepeatVC:UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -85,7 +95,6 @@ extension RepeatVC:UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = dateTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-        cell.textLabel?.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         cell.textLabel?.text = repeatArray[indexPath.row].day.rawValue
         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
         cell.textLabel?.adjustsFontSizeToFitWidth = true

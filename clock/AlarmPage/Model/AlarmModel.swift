@@ -14,7 +14,6 @@ struct AlarmData:Codable{
     var repeatStatus:[DataInfomation.DaysOfWeek]
     var ringTone:String
     var isOn:Bool
-    //var ringTone:String
 }
 
 enum EditStyle {

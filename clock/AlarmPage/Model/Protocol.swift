@@ -7,8 +7,5 @@
 //
 
 import Foundation
-protocol SetRepeatDelegate {
-    func setRepeat (days: [DataInfomation.DaysOfWeek])
-}
 
 

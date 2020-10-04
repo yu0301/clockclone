@@ -8,15 +8,16 @@
 import UIKit
 class AlarmViewController: UIViewController{
 
-    //MARK: -設定區
-    let alarmNavigationBar = UINavigationBar()
+    //MARK: - UI
+    let viewForTableView = UIView()
     let alarmTableView = UITableView()
     var editStyle:EditStyle?
     var indexPath: IndexPath?
     var alarmArray = [AlarmData]()
     
-    func setAlarmNavigationBar(){
-        view.addSubview(alarmNavigationBar)
+    //MARK: - UI設定
+    func setViewForTableView(){
+        view.addSubview(viewForTableView)
     }
 
     func setAlarmTableView(){
@@ -34,7 +35,6 @@ class AlarmViewController: UIViewController{
     }
     
     func setAlarmLeftBTN(){
-        //switch?
         if alarmTableView.isEditing == false {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "編輯", style: .done, target: self, action: #selector(doneTapped))
         }else{
@@ -81,48 +81,40 @@ class AlarmViewController: UIViewController{
         let date = dateFormatter.date(from: string)
         return date!
     }
-    //MARK: -date to string
-    func dateToDateString(_ date:Date) -> String {
-        let timeZone = NSTimeZone.local
-        let formatter = DateFormatter()
-        formatter.timeZone = timeZone
-        formatter.dateFormat = "HH:mm"
-        let date = formatter.string(from: date)
-        return date
-    }
     
-    //MARK: -Constriants區
-    func setAlarmNavigationBarConstraints(){
-        alarmNavigationBar.translatesAutoresizingMaskIntoConstraints = false
-        alarmNavigationBar.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        alarmNavigationBar.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        alarmNavigationBar.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
-        alarmNavigationBar.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.065).isActive = true
+    //MARK: -Constraints區
+    func setViewForTableViewConstraints(){
+        viewForTableView.translatesAutoresizingMaskIntoConstraints = false
+        viewForTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        viewForTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        viewForTableView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1).isActive = true
+        viewForTableView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.07).isActive = true
     }
     
     func setAlarmTableViewConstraints(){
         alarmTableView.translatesAutoresizingMaskIntoConstraints = false
-        alarmTableView.topAnchor.constraint(equalTo: alarmNavigationBar.bottomAnchor).isActive = true
+        alarmTableView.topAnchor.constraint(equalTo: viewForTableView.bottomAnchor).isActive = true
         alarmTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         alarmTableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         alarmTableView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
+    //MARK: -設定好的參數
     func setUI(){
         setAlarmTableView()
-        setAlarmNavigationBar()
+        setViewForTableView()
         setAlarmLeftBTN()
         setAlarmRightBTN()
-        setAlarmNavigationBarConstraints()
+        setViewForTableViewConstraints()
         setAlarmTableViewConstraints()
+        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         alarmArray = UserDefaultData.loadData()
         setUI()
-        navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-        navigationController?.navigationBar.prefersLargeTitles = true
     }
 }
 
@@ -146,12 +138,7 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
         cell.alarmSwitch.isOn = alarmArray[indexPath.row].isOn
         return cell
     }
-    
-    
-    
-    
-    
-    //delete
+
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             alarmArray.remove(at: indexPath.row)
@@ -179,3 +166,5 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
 }
 
 //儲存完後 開啟狀態
+
+//ringtone 重複點會取消

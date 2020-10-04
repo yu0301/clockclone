@@ -15,16 +15,14 @@ protocol LabelTextDelegate {
 class LabelVC: UIViewController {
     var textField = UITextField()
     var delegate:LabelTextDelegate?
-    var text:String?
+    var editAlarmVC:EditAlarmVC!
     
     //MARK: -UI Set
     func setTextField(){
         textField.returnKeyType = .done
         textField.backgroundColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
-        textField.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        textField.text = text
+        textField.text = editAlarmVC.text
         textField.clearButtonMode = .whileEditing
-        textField.delegate = self
         view.addSubview(textField)
     }
     
@@ -48,15 +46,6 @@ class LabelVC: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         delegate?.labelText(controller: self)
-    }
-}
-
-//按return時觸發
-extension LabelVC:UITextFieldDelegate{
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        delegate?.labelText(controller: self)
-//        navigationController?.popViewController(animated: true)
-        return true
     }
 }
 
