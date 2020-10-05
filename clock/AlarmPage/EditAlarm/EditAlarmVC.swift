@@ -87,6 +87,7 @@ class EditAlarmVC: UIViewController {
             alarmVC.alarmArray[indexPath.row].status = DataInfomation.editAlarmCellContent[0].1[1]
             alarmVC.alarmArray[indexPath.row].repeatStatus = repeatStatusArray
             alarmVC.alarmArray[indexPath.row].ringTone = DataInfomation.editAlarmCellContent[0].1[2]
+            alarmVC.alarmArray[indexPath.row].isOn = isOn!
         case .none:
             print("error")
         }

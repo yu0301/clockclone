@@ -28,12 +28,13 @@ class AlarmCell: UITableViewCell {
     }
     
     //MARK: -Set Cell and Label
-    var AlarmVC:AlarmViewController!
+    var alarmVC:AlarmViewController!
     var alarmLabel = UILabel()
     var statusLabel = UILabel()
     var repeatLabel = UILabel()
     var alarmSwitch = UISwitch()
     var isOn = true
+    var cellIndexPath:IndexPath!
     var tailImageView = UIImageView(image: UIImage(named: "Forward_Filled"))
     
     func setCell(){
@@ -85,7 +86,7 @@ class AlarmCell: UITableViewCell {
     
     @objc func changeAlarmTextColor(){
         isOn = alarmSwitch.isOn
-        
+        alarmVC.alarmArray[cellIndexPath.row].isOn = isOn
         if alarmSwitch.isOn == true{
             alarmLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -95,6 +96,9 @@ class AlarmCell: UITableViewCell {
             statusLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
             repeatLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         }
+        //點擊switch後儲存檔案
+        UserDefaultData.saveData(alarmArray: alarmVC.alarmArray)
+     
     }
     
     //MARK: -Constraints
