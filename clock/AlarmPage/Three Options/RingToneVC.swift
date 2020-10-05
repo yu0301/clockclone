@@ -95,11 +95,9 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
         cell.setCheckMarkImageViewConstriant()
         cell.checkMarkImageView.image = ringToneArray[indexPath.row].isSelected ? UIImage(named: "checkmark") : nil
         
-       
-        //此時self.cell 有值
-        if ringToneArray[indexPath.row].isSelected == true{
+        //讓self.cell有值，才能刪除，新增
             self.cell = cell
-        }
+        
         
         return cell
     }

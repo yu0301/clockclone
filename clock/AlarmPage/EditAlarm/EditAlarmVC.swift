@@ -52,6 +52,7 @@ class EditAlarmVC: UIViewController {
         editAlarmTableView.dataSource = self
         editAlarmTableView.separatorColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         editAlarmTableView.isScrollEnabled = false
+        editAlarmTableView.tableFooterView = UIView()
         view.addSubview(editAlarmTableView)
     }
     
@@ -64,6 +65,9 @@ class EditAlarmVC: UIViewController {
     }
     
     @objc func cancelTapped(){
+//        if editStyle == .edit{
+//            DataInfomation.editAlarmCellContent[1].1.insert("佔位", at: 0)
+//        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -83,7 +87,6 @@ class EditAlarmVC: UIViewController {
             alarmVC.alarmArray[indexPath.row].status = DataInfomation.editAlarmCellContent[0].1[1]
             alarmVC.alarmArray[indexPath.row].repeatStatus = repeatStatusArray
             alarmVC.alarmArray[indexPath.row].ringTone = DataInfomation.editAlarmCellContent[0].1[2]
-            alarmVC.alarmArray[indexPath.row].isOn = isOn!
         case .none:
             print("error")
         }
@@ -134,7 +137,7 @@ class EditAlarmVC: UIViewController {
     
     //MARK: -設定好的參數
     func setUI(){
-        title = (editStyle == .edit) ? "編輯鬧鐘" : "加入鬧鐘"
+        title = (editStyle == .edit) ? "編輯鬧鐘" : "加入鬧鐘" 
         navigationController?.navigationBar.tintColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         navigationItem.backButtonTitle = "返回"

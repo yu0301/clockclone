@@ -30,7 +30,6 @@ class AlarmViewController: UIViewController{
         alarmTableView.allowsSelection = false
         alarmTableView.allowsSelectionDuringEditing = true
         alarmTableView.tableFooterView = UIView()
-        alarmTableView.separatorColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
         view.addSubview(alarmTableView)
     }
     
@@ -131,11 +130,16 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = alarmTableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! AlarmCell
+        cell.AlarmVC = self
         cell.editingAccessoryView = cell.tailImageView
         cell.alarmLabel.text = alarmArray[indexPath.row].time
         cell.statusLabel.text = alarmArray[indexPath.row].status
         cell.repeatLabel.text = alarmArray[indexPath.row].repeatStatus.uiStringMain
         cell.alarmSwitch.isOn = alarmArray[indexPath.row].isOn
+        cell.setAlarmSwitch()
+    
+        //當alarmSwitch切換時，要改變本地的switch值
+        //所以點擊alarmSwitch要可以改變switch
         return cell
     }
 
@@ -147,15 +151,24 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
         }
     }
     
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "刪除"
+    }
+    
     //MARK: -edit mode
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         alarmTableView.allowsSelectionDuringEditing = true
+        let cell = alarmTableView.cellForRow(at: indexPath) as? AlarmCell
+        
         let vc = EditAlarmVC()
         let navVC = UINavigationController(rootViewController: vc)
         vc.alarmVC = self
         vc.editStyle = .edit
         vc.indexPath = indexPath
-        vc.isOn = alarmArray[indexPath.row].isOn
+        
+        //將更新後的isOn傳到下一頁 OK
+        //但是沒經過編輯狀態就無法改變
+        vc.isOn = cell!.isOn
         vc.alarmDatePicker.date = stringConvertDate(string:  alarmArray[indexPath.row].time)
         if alarmTableView.isEditing == true {
             alarmTableView.setEditing(false, animated: true)
@@ -165,6 +178,6 @@ extension AlarmViewController: UITableViewDelegate,UITableViewDataSource {
     }
 }
 
-//儲存完後 開啟狀態
-
+//沒經過儲存的動作，重新開啟後不會改變switch結果
+//switch改變 isOn沒改變
 //ringtone 重複點會取消

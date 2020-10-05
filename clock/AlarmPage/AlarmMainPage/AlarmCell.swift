@@ -28,11 +28,12 @@ class AlarmCell: UITableViewCell {
     }
     
     //MARK: -Set Cell and Label
+    var AlarmVC:AlarmViewController!
     var alarmLabel = UILabel()
     var statusLabel = UILabel()
     var repeatLabel = UILabel()
     var alarmSwitch = UISwitch()
-    var isOn:Bool?
+    var isOn = true
     var tailImageView = UIImageView(image: UIImage(named: "Forward_Filled"))
     
     func setCell(){
@@ -70,10 +71,21 @@ class AlarmCell: UITableViewCell {
     func setAlarmSwitch(){
         alarmSwitch.frame = CGRect(x: 10, y: 10, width: 5, height: 5)
         alarmSwitch.addTarget(self, action: #selector(changeAlarmTextColor), for: .touchUpInside)
+        if alarmSwitch.isOn == true{
+            alarmLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            repeatLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        }else if alarmSwitch.isOn == false{
+            alarmLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+            statusLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+            repeatLabel.textColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
+        }
         self.accessoryView = alarmSwitch
     }
     
     @objc func changeAlarmTextColor(){
+        isOn = alarmSwitch.isOn
+        
         if alarmSwitch.isOn == true{
             alarmLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
             statusLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
@@ -93,14 +105,14 @@ class AlarmCell: UITableViewCell {
         alarmLabel.widthAnchor.constraint(equalTo:widthAnchor ,multiplier: fullScreenSize.height * 0.0004).isActive = true
         alarmLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: fullScreenSize.width * 0.036).isActive = true
     }
-
+    
     func setStatusLabelConstraints(){
         statusLabel.translatesAutoresizingMaskIntoConstraints = false
         statusLabel.topAnchor.constraint(equalTo: alarmLabel.bottomAnchor,constant: fullScreenSize.height * -0.0056).isActive = true
         statusLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: fullScreenSize.height * 0.00032).isActive = true
         statusLabel.widthAnchor.constraint(equalTo:widthAnchor ,multiplier: fullScreenSize.width * 0.00025).isActive = true
         statusLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: fullScreenSize.width * 0.036).isActive = true
-       }
+    }
     
     func setRepeatLabelConstraints(){
         repeatLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -108,5 +120,5 @@ class AlarmCell: UITableViewCell {
         repeatLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: fullScreenSize.height * 0.00032).isActive = true
         repeatLabel.widthAnchor.constraint(equalTo:widthAnchor ,multiplier: fullScreenSize.width * 0.0016).isActive = true
         repeatLabel.leadingAnchor.constraint(equalTo:statusLabel.trailingAnchor).isActive = true
-       }
+    }
 }
