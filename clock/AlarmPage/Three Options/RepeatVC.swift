@@ -8,30 +8,23 @@
 
 import UIKit
 
-protocol SetRepeatDelegate {
-    func setRepeat (days: [DataInfomation.DaysOfWeek])
-}
-
 class RepeatVC: UIViewController {
     //將拿到的array map，被點選到的會有一個bool
-    //(,) tuple?
     var repeatArray: [(day:DataInfomation.DaysOfWeek,isSelected:Bool)] =
         DataInfomation.DaysOfWeek.allCases.map { (day: $0, isSelected: false)}
     var delegate: SetRepeatDelegate?
     var editAlarmVC: EditAlarmVC!
-    var dateTableView = UITableView()
     var index:Int!
-    func setDateTableView(){
+    let dateTableView:UITableView = {
+        let dateTableView = UITableView()
         dateTableView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         dateTableView.separatorColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
         dateTableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        dateTableView.rowHeight = fullScreenSize.height * 0.056
-        dateTableView.delegate = self
-        dateTableView.dataSource = self
+        dateTableView.rowHeight = fullScreenY * 0.056
         dateTableView.tableFooterView = UIView()
-        view.addSubview(dateTableView)
-    }
-    
+        return dateTableView
+    }()
+ 
     func setAlarmTableViewConstraints(){
         dateTableView.translatesAutoresizingMaskIntoConstraints = false
         dateTableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -42,24 +35,23 @@ class RepeatVC: UIViewController {
     func setUI(){
         title = "重複"
         view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
-        setDateTableView()
+        view.addSubview(dateTableView)
         setAlarmTableViewConstraints()
     }
     
     override func viewDidLoad() {
-        //把前一頁的日期傳過來
         let repeatStatusArray = editAlarmVC.repeatStatusArray
-        
         //將前一頁的日期與所有的日期進行比較，$0.day == 本頁資料，day前頁資料，如果前頁資料的等於本業資料則得其index
-        //return Int
+        print(repeatStatusArray)
         for day in repeatStatusArray{
             index = repeatArray.firstIndex(where: { $0.day == day
             })
-            //再把該index對應的布林值變成true，就會打勾
             repeatArray[index].isSelected = true
         }
-     
+        dateTableView.delegate = self
+        dateTableView.dataSource = self
         setUI()
+       
         super.viewDidLoad()
     }
     
@@ -69,10 +61,9 @@ class RepeatVC: UIViewController {
         let repeatStatus = repeatArray.filter({ (day) -> Bool in
             day.isSelected
         })
-        
         //打勾的值有兩個，一個是日期一個是有沒有被選，把日期當作參數傳出去
         delegate?.setRepeat(days: repeatStatus.map { $0.day})
-        
+        print(repeatStatus.map { $0.day})
     }
 }
 
@@ -98,23 +89,13 @@ extension RepeatVC:UITableViewDelegate,UITableViewDataSource{
         cell.textLabel?.text = repeatArray[indexPath.row].day.rawValue
         cell.textLabel?.font = UIFont.systemFont(ofSize: 18)
         cell.textLabel?.adjustsFontSizeToFitWidth = true
-        //如果true則打勾，false則none
         cell.accessoryType = repeatArray[indexPath.row].isSelected ? .checkmark: .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = dateTableView.cellForRow(at: indexPath) {
-            //點選動畫不立即生效
-            dateTableView.deselectRow(at: indexPath, animated: true)
-            if cell.accessoryType == .none {
-                cell.accessoryType = .checkmark
-                //被點到的row其isSelected為true
-                repeatArray[indexPath.row].isSelected = true
-            } else {
-                cell.accessoryType = .none
-                repeatArray[indexPath.row].isSelected = false
-            }
-        }
+        repeatArray[indexPath.row].isSelected.toggle()
+        dateTableView.reloadRows(at: [indexPath], with: .none)
     }
 }
+

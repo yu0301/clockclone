@@ -11,19 +11,9 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
       
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-//        let worldClockNC = UINavigationController(rootViewController: WorldClock())
-//        let alarmNC = UINavigationController(rootViewController: AlarmViewController())
-//        let stopWatchNC = UINavigationController(rootViewController:StopWatchVC() )
-//        let timerNC = UINavigationController(rootViewController: TimerVC())
-//
-//        let tabbar = UITabBarController()
-//        tabbar.viewControllers = [worldClockNC,alarmNC,stopWatchNC,timerNC]
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene

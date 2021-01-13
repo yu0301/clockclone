@@ -9,10 +9,6 @@
 //import AudioToolbox
 import UIKit
 
-protocol SetRingToneDelegate{
-    func setRingTone(index:Int)
-}
-
 class RingToneVC: UIViewController {
 //    將拿到的array map，被點選到的會有一個bool
     //(,) tuple?
@@ -29,7 +25,7 @@ class RingToneVC: UIViewController {
     let ringToneTableView = UITableView()
     func setRingToneTableView(){
         ringToneTableView.register(RingToneTableViewCell.self, forCellReuseIdentifier: "Cell")
-        ringToneTableView.rowHeight = fullScreenSize.height * 0.056
+        ringToneTableView.rowHeight = fullScreenY * 0.056
         ringToneTableView.delegate = self
         ringToneTableView.dataSource = self
         ringToneTableView.separatorColor = #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)
@@ -51,7 +47,7 @@ class RingToneVC: UIViewController {
         let savedRingTone = editAlarmVC.ringTone
         index = ringToneArray.firstIndex(where: { $0.ringTong == savedRingTone
             })
-        //再把該index對應的布林值變成true，就會打勾
+//        再把該index對應的布林值變成true，就會打勾
             ringToneArray[index].isSelected = true
       
         title = "提示聲"
@@ -93,10 +89,10 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
         cell.ringToneTitleLabel.text = ringTone[indexPath.row]
         cell.setRingToneTitleLabelConstraint()
         cell.setCheckMarkImageViewConstriant()
-        cell.checkMarkImageView.image = ringToneArray[indexPath.row].isSelected ? UIImage(named: "checkmark") : nil
+//        cell.checkMarkImageView.image = ringToneArray[indexPath.row].isSelected ? UIImage(named: "checkmark") : nil
         
         //讓self.cell有值，才能刪除，新增
-            self.cell = cell
+//            self.cell = cell
         
         
         return cell
@@ -111,9 +107,10 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
         if let cell = ringToneTableView.cellForRow(at: indexPath) as? RingToneTableViewCell {
             //那格為true
             ringToneArray[indexPath.row].isSelected = true
-            
             //被點到的如果是如果是true則有圖
             cell.checkMarkImageView.image = ringToneArray[indexPath.row].isSelected ? UIImage(named: "checkmark") : nil
+            
+//            cell.checkMarkImageView.backgroundColor = .black
             
             //self.cell為之前的值，當其他格被選時這格就變成取消打勾
             self.cell?.checkMarkImageView.image = nil
@@ -122,9 +119,9 @@ extension RingToneVC:UITableViewDelegate,UITableViewDataSource{
             self.cell = cell
         }
         //被選到的那格
-        index = indexPath.row
+//        index = indexPath.row
         //委託給別人做，並把值傳過去
-        delegate?.setRingTone(index: index)
-        ringToneTableView.deselectRow(at: indexPath, animated: true)
+//        delegate?.setRingTone(index: index)
+//        ringToneTableView.deselectRow(at: indexPath, animated: true)
     }
 }

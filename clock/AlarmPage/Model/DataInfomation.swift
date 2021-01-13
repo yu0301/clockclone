@@ -9,9 +9,7 @@
 import Foundation
 
 enum DataInfomation{
-    static var editAlarmCellTitle = ["重複","標籤","提示聲","稍後提醒"]
-    static var editAlarmCellContent = [("",["永不","鬧鐘","雷達",""]),("",["佔位置用的"])]
-    static let ringTone = ["雷達","222","333","444","555","666","777","888","999"]
+    static let ringTone = ["雷達","上升","山坡","公告","水晶","宇宙","波浪","信號","急板"]
     
     enum DaysOfWeek: String,CaseIterable {
         case 星期日, 星期一, 星期二, 星期三, 星期四, 星期五, 星期六
@@ -65,7 +63,7 @@ extension Array where Element == DataInfomation.DaysOfWeek {
         case []:
             return ""
         case [.星期日, .星期一, .星期二, .星期三, .星期四, .星期五, .星期六]:
-            return DataInfomation.repeatAdditional.Everday.destription
+            return ",\(DataInfomation.repeatAdditional.Everday.destription)"
         case [.星期一, .星期二, .星期三, .星期四, .星期五]:
             return "，每個\(DataInfomation.repeatAdditional.Weekday.destription)"
         case [.星期日,.星期六]:

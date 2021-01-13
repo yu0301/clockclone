@@ -12,7 +12,7 @@ class EditAlarmCell: UITableViewCell {
     
     let editAlarmCellLabel = UILabel()
     let snoozeSwitch = UISwitch()
-    var trailImage = UIImageView(image: UIImage(named: "Forward_Filled"))
+    
     //MARK: -Set UI
     func setEditAlarmCellLabel(){
         editAlarmCellLabel.backgroundColor = .clear
@@ -22,24 +22,11 @@ class EditAlarmCell: UITableViewCell {
         addSubview(editAlarmCellLabel)
     }
     
-    func setCell(indexPath:IndexPath, title:[String]){
-        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        self.textLabel?.font = UIFont.systemFont(ofSize: 18)
-        self.textLabel?.adjustsFontSizeToFitWidth = true
-        self.textLabel?.text = title[indexPath.row]
-    }
-    
     func setDeletecell(){
         self.accessoryType = UITableViewCell.AccessoryType.none
         self.textLabel?.textColor = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-        self.textLabel?.font = UIFont.systemFont(ofSize: 18)
-        self.textLabel?.adjustsFontSizeToFitWidth = true
         self.textLabel?.text = "刪除鬧鐘"
         self.textLabel?.textAlignment = .center
-    }
-    
-    func setSnoozeSwitch(){
-       accessoryView = snoozeSwitch
     }
     //MARK:- Constraints
     func setEditAlarmCellLabelConstraints(){
@@ -51,7 +38,12 @@ class EditAlarmCell: UITableViewCell {
     
      override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
          super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        self.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
+        self.textLabel?.font = UIFont.systemFont(ofSize: 18)
+        self.textLabel?.adjustsFontSizeToFitWidth = true
+        snoozeSwitch.isOn = true
+        setEditAlarmCellLabel()
+        setEditAlarmCellLabelConstraints()
      }
      
      required init?(coder: NSCoder) {
